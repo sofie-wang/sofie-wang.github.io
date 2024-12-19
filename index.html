@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sofie Wang | UX Researcher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #ff9a8b, #ff758c);
+            color: #333;
+        }
+        .header {
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            color: white;
+        }
+        .profile {
+            background: linear-gradient(135deg, #ffb3ab, #ffe6e1);
+            clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 90%);
+        }
+        .button-hover {
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        .button-hover:hover {
+            transform: scale(1.1);
+            background-color: #ff758c;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header py-6 px-8 flex justify-between items-center">
+        <h1 class="text-2xl font-bold">Sofie Wang</h1>
+        <nav class="flex space-x-6">
+            <a href="#about" class="hover:underline">About</a>
+            <a href="#experience" class="hover:underline">Experience</a>
+            <a href="#contact" class="hover:underline">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="profile text-white py-32 px-4 text-center relative">
+        <div class="max-w-xl mx-auto">
+            <img src="profile.png" alt="Profile Image" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-white">
+            <h2 class="text-4xl font-extrabold mb-6">Hello, I’m Sofie Wang</h2>
+            <p class="text-lg leading-relaxed">A UX researcher passionate about creating meaningful digital experiences by blending psychology, education, and design.</p>
+            <button class="mt-6 bg-pink-500 text-white px-6 py-3 rounded-full text-lg button-hover">Explore My Work</button>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto py-16 px-4 space-y-16">
+        <!-- About Section -->
+        <section id="about" class="space-y-6">
+            <h2 class="text-3xl font-bold text-gray-800">About Me</h2>
+            <p class="text-gray-700">Currently pursuing a BSc in Psychology with Education at UCL, I am skilled in Python, R Studio, and SPSS. I aim to bridge the gap between data-driven insights and user-centered design.</p>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="space-y-6">
+            <h2 class="text-3xl font-bold text-gray-800">Experience</h2>
+            <ul class="space-y-4">
+                <li class="text-gray-700"><strong>HR Intern - Shanghai Investment Venture Capital</strong><br>Managed recruitment processes and evaluated applications (Aug - Sep 2024).</li>
+                <li class="text-gray-700"><strong>IELTS Teaching Assistant - Affinity Education</strong><br>Administered and monitored IELTS mock tests, tailoring learning plans for students (Aug 2023 - Mar 2024).</li>
+                <li class="text-gray-700"><strong>ESL Instructor - CIE</strong><br>Designed engaging curricula to enhance English proficiency (Feb - Apr 2023).</li>
+            </ul>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="space-y-6">
+            <h2 class="text-3xl font-bold text-gray-800">Contact Me</h2>
+            <p class="text-gray-700">Email: <a href="mailto:sofie10124@gmail.com" class="text-pink-500 hover:underline">sofie10124@gmail.com</a></p>
+            <p class="text-gray-700">Phone: +44 7410-600-291 | +86 134-7264-8023</p>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-pink-500 text-white py-4 text-center">
+        <p>&copy; 2024 Sofie Wang. Crafted with care and passion.</p>
+        <p><a href="#" class="hover:underline"><i class="fab fa-linkedin"></i> LinkedIn</a></p>
+    </footer>
+
+    <script>
+        gsap.from(".header", { duration: 1, y: -100, ease: "bounce" });
+        gsap.from(".profile", { duration: 1.5, opacity: 0, ease: "power2.inOut" });
+        gsap.from("main section", { duration: 1, y: 50, opacity: 0, stagger: 0.3, ease: "power2.out" });
+    </script>
+</body>
+</html>
