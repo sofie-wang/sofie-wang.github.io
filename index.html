@@ -3,304 +3,711 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sofie Wang - Portfolio</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <title>Sofie Wang</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400&family=Italiana&display=swap');
+
         :root {
-            --purple-50: #f5f3ff;
-            --purple-100: #ede9fe;
-            --purple-200: #ddd6fe;
-            --purple-300: #c4b5fd;
-            --purple-400: #a78bfa;
-            --purple-500: #8b5cf6;
-            --purple-600: #7c3aed;
-            --purple-700: #6d28d9;
-            --purple-800: #5b21b6;
-            --purple-900: #4c1d95;
+            --primary: #9A7BA8;
+            --primary-light: #BFA3C7;
+            --accent: #E6D7EE;
+            --text: #2C2C2C;
+            --background: #FDFBFF;
+            --spacing: clamp(2rem, 5vw, 5rem);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            text-decoration: none;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--purple-50);
-            color: var(--purple-900);
-            line-height: 1.6;
+            background: 
+                radial-gradient(circle at 0% 0%, rgba(191, 163, 199, 0.07) 0%, transparent 50%),
+                radial-gradient(circle at 100% 0%, rgba(154, 123, 168, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(191, 163, 199, 0.07) 0%, transparent 50%),
+                radial-gradient(circle at 0% 100%, rgba(154, 123, 168, 0.05) 0%, transparent 50%),
+                var(--background);
+            color: var(--text);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            line-height: 1.8;
             overflow-x: hidden;
         }
 
-        .header {
-            background: linear-gradient(135deg, var(--purple-600), var(--purple-800));
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
             position: relative;
         }
 
-        .header::after {
+        header {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: 
+                linear-gradient(135deg, rgba(157,122,165,0.05) 0%, transparent 50%),
+                linear-gradient(225deg, rgba(230,215,238,0.07) 0%, transparent 50%),
+                linear-gradient(315deg, rgba(157,122,165,0.03) 0%, transparent 50%);
+        }
+
+        header::before, header::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-light), transparent);
+        }
+
+        header::before { top: 0; }
+        header::after { bottom: 0; }
+
+        .header-content {
+            text-align: center;
+            z-index: 2;
+            opacity: 0;
+            animation: fadeUp 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            position: relative;
+        }
+
+        .header-content::before {
+            content: '✧';
+            position: absolute;
+            top: -3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--primary);
+            font-size: 1.5rem;
+            opacity: 0.5;
+        }
+
+        h1 {
+            font-family: 'Italiana', serif;
+            font-size: clamp(3.5rem, 10vw, 6.5rem);
+            font-weight: 400;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: 4px;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            color: var(--text);
+            opacity: 0.8;
+            margin-bottom: var(--spacing);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 3.5rem;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .contact-info::before {
+            content: '';
+            position: absolute;
+            top: -2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 1px;
+            background: var(--primary);
+            opacity: 0.3;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.9rem;
+            color: var(--text);
+            opacity: 0.7;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 0.6rem 1.2rem;
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .contact-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--primary);
+            transition: width 0.4s ease;
+        }
+
+        .contact-item:hover {
+            opacity: 1;
+            transform: translateY(-3px);
+            color: var(--primary);
+        }
+
+        .contact-item:hover::after {
+            width: 100%;
+        }
+
+        .contact-item i {
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        section {
+            padding: var(--spacing) 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            margin: 2rem 0;
+            border-radius: 2px;
+            padding: calc(var(--spacing) * 1.2) 2rem;
+        }
+
+        section::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('https://source.unsplash.com/1600x900/?abstract,technology') center/cover;
-            opacity: 0.2;
-            z-index: 0;
+            background: linear-gradient(135deg, rgba(157,122,165,0.03) 0%, transparent 100%);
+            pointer-events: none;
         }
 
-        .header-content {
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-family: 'Italiana', serif;
+            font-size: 2.8rem;
+            font-weight: 400;
+            color: var(--primary);
+            margin-bottom: 4rem;
             position: relative;
-            z-index: 1;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 3rem;
-            border-radius: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            max-width: 800px;
-            width: 100%;
-            color: white;
-            animation: fadeIn 1.5s ease-in-out;
+            display: inline-block;
+            letter-spacing: 2px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .section-title::before {
+            display: none;
         }
 
-        h1 {
-            font-size: clamp(3rem, 6vw, 5rem);
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .subtitle {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            color: var(--purple-200);
-            margin-bottom: 2rem;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .contact-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 0.8rem 1.5rem;
-            border-radius: 2rem;
-            font-size: 1rem;
-            font-weight: 500;
-            color: white;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-        }
-
-        section {
-            margin: 4rem 0;
-            position: relative;
-        }
-
-        h2 {
-            font-size: 2.5rem;
-            color: var(--purple-800);
-            margin-bottom: 2rem;
-            text-align: center;
-            position: relative;
-        }
-
-        h2::before {
+        .section-title::after {
             content: '';
             position: absolute;
-            width: 50px;
-            height: 4px;
-            background: var(--purple-600);
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
+            bottom: -15px;
+            left: 0;
+            width: 70%;
+            height: 1px;
+            background: linear-gradient(90deg, var(--primary), transparent);
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+        .experience-item {
+            margin-bottom: 5rem;
+            position: relative;
+            padding-left: 3rem;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .card {
-            background: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary), transparent);
+            opacity: 0.3;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        .experience-item:hover::before {
+            opacity: 1;
+            transform: scaleY(1.05);
         }
 
-        h3 {
-            color: var(--purple-700);
+        .experience-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: var(--text);
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .experience-company {
+            font-size: 1rem;
+            color: var(--primary);
             margin-bottom: 1rem;
+            letter-spacing: 1.5px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
         }
 
-        .date {
-            color: var(--purple-500);
+        .experience-date {
             font-size: 0.9rem;
-            margin-bottom: 1rem;
+            opacity: 0.7;
+            margin-bottom: 1.8rem;
+            font-weight: 200;
+            letter-spacing: 1px;
         }
 
-        ul {
+        .experience-details {
+            font-size: 0.95rem;
+            opacity: 0.85;
             list-style: none;
-            padding: 0;
-            margin-top: 1rem;
+            padding-left: 0.5rem;
         }
 
-        li {
-            margin-bottom: 0.5rem;
-            color: var(--purple-700);
+        .experience-details li {
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 1.8rem;
+            line-height: 1.6;
+        }
+
+        .experience-details li::before {
+            content: '✧';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            opacity: 0.5;
+            font-size: 0.9rem;
+            top: 2px;
         }
 
         .skills {
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
+            gap: 1.5rem;
+            padding: 1.5rem 0;
         }
 
-        .skill {
-            background: white;
-            color: var(--purple-700);
-            padding: 0.8rem 1.5rem;
-            border-radius: 2rem;
-            font-size: 1rem;
-            font-weight: 500;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+        .skill-tag {
+            padding: 0.8rem 2.2rem;
+            border: 1px solid var(--primary-light);
+            border-radius: 0;
+            font-size: 0.9rem;
+            opacity: 0.85;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            letter-spacing: 1px;
+            position: relative;
+            background: transparent;
+            overflow: hidden;
         }
 
-        .skill:hover {
-            background: var(--purple-600);
+        .skill-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: -1;
+        }
+
+        .skill-tag:hover {
             color: white;
-            transform: translateY(-5px);
+            opacity: 1;
+            transform: translateY(-3px);
+            border-color: transparent;
+        }
+
+        .skill-tag:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @media (max-width: 768px) {
-            .header-content {
-                padding: 2rem;
-            }
-
-            .grid {
-                grid-template-columns: 1fr;
-            }
-
             .contact-info {
                 flex-direction: column;
+                gap: 1.5rem;
             }
 
-            .contact-item {
-                width: 100%;
-                text-align: center;
+            .experience-item {
+                padding-left: 2rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .experience-title {
+                font-size: 1.5rem;
+            }
+
+            .skill-tag {
+                padding: 0.7rem 1.8rem;
+            }
+
+            .download-cv {
+                padding: 0.8rem 2rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        .download-cv {
+            margin-top: 3rem;
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            background: transparent;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .download-cv::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: -1;
+        }
+
+        .download-cv:hover {
+            color: white;
+            transform: translateY(-3px);
+            border-color: transparent;
+        }
+
+        .download-cv:hover::before {
+            opacity: 1;
+        }
+
+        .download-cv i {
+            margin-left: 0.8rem;
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+        }
+
+        .download-cv:hover i {
+            transform: translateX(3px);
+        }
+
+        .nav {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            mix-blend-mode: difference;
+        }
+
+        .nav-item {
+            position: relative;
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 0.5rem;
+            transition: all 0.4s ease;
+            opacity: 0.7;
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            right: -1rem;
+            top: 50%;
+            width: 0;
+            height: 1px;
+            background: white;
+            transition: width 0.4s ease;
+        }
+
+        .nav-item:hover {
+            opacity: 1;
+            transform: translateX(-0.5rem);
+        }
+
+        .nav-item:hover::after {
+            width: 1.5rem;
+        }
+
+        .nav-item.active {
+            opacity: 1;
+        }
+
+        .nav-item.active::after {
+            width: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                top: auto;
+                bottom: 2rem;
+                right: 50%;
+                transform: translateX(50%);
+                flex-direction: row;
+                gap: 2rem;
+                background: rgba(154, 123, 168, 0.1);
+                backdrop-filter: blur(10px);
+                padding: 1rem 2rem;
+                border-radius: 100px;
+            }
+
+            .nav-item {
+                color: var(--primary);
+                mix-blend-mode: normal;
+            }
+
+            .nav-item::after {
+                display: none;
+            }
+
+            .nav-item:hover {
+                transform: translateY(-3px);
             }
         }
     </style>
 </head>
 <body>
-    <header class="header">
+    <nav class="nav">
+        <a href="#home" class="nav-item active">Home</a>
+        <a href="#education" class="nav-item">Education</a>
+        <a href="#experience" class="nav-item">Experience</a>
+        <a href="#skills" class="nav-item">Skills</a>
+    </nav>
+
+    <header id="home">
         <div class="header-content">
-            <h1>Sofie Wang</h1>
-            <div class="subtitle">Psychology & Education Professional</div>
+            <h1>Yuying Wang</h1>
+            <div class="subtitle">Sofie</div>
             <div class="contact-info">
-                <div class="contact-item">London</div>
-                <div class="contact-item">+44(0) 7410-600-291</div>
-                <div class="contact-item">sofie10124@gmail.com</div>
+                <a href="#" class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    London
+                </a>
+                <a href="tel:+8613472648023" class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    +86 134-7264-8023
+                </a>
+                <a href="tel:+447410600291" class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    +44(0) 7410-600-291
+                </a>
+                <a href="mailto:sofie10124@gmail.com" class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    sofie10124@gmail.com
+                </a>
             </div>
+            <a href="cv.pdf" download class="download-cv">
+                Download CV <i class="fas fa-arrow-right"></i>
+            </a>
         </div>
     </header>
 
-    <main class="container">
+    <div class="container">
         <section id="education">
-            <h2>Education</h2>
-            <div class="card" data-aos="fade-up">
-                <h3>University College London</h3>
-                <div class="date">September 2023-Present</div>
-                <p>BSc Psychology with Education</p>
+            <h2 class="section-title">Education</h2>
+            <div class="experience-item">
+                <div class="experience-title">BSc Psychology with Education</div>
+                <div class="experience-company">University College London</div>
+                <div class="experience-date">September 2023 - Present</div>
             </div>
         </section>
 
         <section id="experience">
-            <h2>Experience</h2>
-            <div class="grid">
-                <div class="card" data-aos="zoom-in">
-                    <h3>PR Team Member</h3>
-                    <p>EZ Wellbeing Connection</p>
-                    <div class="date">November 2024-Present</div>
-                    <ul>
-                        <li>Stakeholder engagement</li>
-                        <li>Communication strategy</li>
-                        <li>Professional networking</li>
-                    </ul>
-                </div>
+            <h2 class="section-title">Experience</h2>
+            
+            <div class="experience-item">
+                <div class="experience-title">Public Relations Team Member</div>
+                <div class="experience-company">EZ Wellbeing Connection</div>
+                <div class="experience-date">November 2024 - Present</div>
+                <ul class="experience-details">
+                    <li>Contacted therapists and counselling professionals for collaboration</li>
+                    <li>Developed stakeholder relationships</li>
+                    <li>Designed communication strategies for outreach campaigns</li>
+                </ul>
+            </div>
 
-                <div class="card" data-aos="zoom-in" data-aos-delay="100">
-                    <h3>HR Intern</h3>
-                    <p>Shanghai Investment Venture Capital</p>
-                    <div class="date">August 2024-September 2024</div>
-                    <ul>
-                        <li>Recruitment assistance</li>
-                        <li>Document management</li>
-                        <li>Candidate screening</li>
-                    </ul>
-                </div>
+            <div class="experience-item">
+                <div class="experience-title">Human Resources Intern</div>
+                <div class="experience-company">Shanghai Investment Venture Capital</div>
+                <div class="experience-date">August 2024 - September 2024</div>
+                <ul class="experience-details">
+                    <li>Assisted in recruitment processes</li>
+                    <li>Managed company materials and documentation</li>
+                    <li>Evaluated applications from job-seeking platforms</li>
+                </ul>
+            </div>
 
-                <div class="card" data-aos="zoom-in" data-aos-delay="200">
-                    <h3>Teaching Assistant</h3>
-                    <p>Alpha Test Prep, AFfinity Education</p>
-                    <div class="date">March 2023-March 2024</div>
-                    <ul>
-                        <li>TOFEL & IELTS instruction</li>
-                        <li>Performance assessment</li>
-                        <li>Remote learning facilitation</li>
-                    </ul>
-                </div>
+            <div class="experience-item">
+                <div class="experience-title">TOFEL & IELTS Teaching Assistant</div>
+                <div class="experience-company">Alpha Test Prep, AFfinity Education</div>
+                <div class="experience-date">March 2023 - March 2024</div>
+                <ul class="experience-details">
+                    <li>Assisted students with exam preparation</li>
+                    <li>Administered mock tests and provided feedback</li>
+                    <li>Adapted teaching methods for remote instruction</li>
+                </ul>
             </div>
         </section>
 
         <section id="skills">
-            <h2>Skills</h2>
-            <div class="skills" data-aos="fade-up">
-                <div class="skill">Python</div>
-                <div class="skill">PsychoPy</div>
-                <div class="skill">R Studio</div>
-                <div class="skill">SPSS</div>
-                <div class="skill">Microsoft Office</div>
-                <div class="skill">Adobe Photoshop</div>
+            <h2 class="section-title">Skills</h2>
+            <div class="skills">
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">PsychoPy</span>
+                <span class="skill-tag">R Studio</span>
+                <span class="skill-tag">SPSS</span>
+                <span class="skill-tag">Microsoft Office</span>
+                <span class="skill-tag">Adobe Photoshop</span>
             </div>
         </section>
-    </main>
+    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
-        AOS.init({
-            duration: 1000,
-            easing: 'ease-in-out',
-            once: true,
+        // Initialize home as active on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            // Set home as active by default
+            document.querySelector('a[href="#home"]').classList.add('active');
+            
+            // Ensure we're at the top of the page
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '50px'
+        });
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Parallax effect for header
+        document.addEventListener('scroll', () => {
+            const header = document.querySelector('.header-content');
+            const scrolled = window.pageYOffset;
+            const parallaxSpeed = 0.4;
+            header.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
+            header.style.opacity = 1 - (scrolled * 0.0015);
+        });
+
+        // Add hover effect to experience items
+        document.querySelectorAll('.experience-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.transform = 'translateX(10px)';
+            });
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = 'translateX(0)';
+            });
+        });
+
+        // Improved scroll spy functionality
+        function updateActiveNavItem() {
+            const sections = document.querySelectorAll('section, header');
+            const navLinks = document.querySelectorAll('.nav-item');
+            const scrollPosition = window.pageYOffset;
+
+            // Special case for home section
+            if (scrollPosition < window.innerHeight / 2) {
+                navLinks.forEach(link => link.classList.remove('active'));
+                document.querySelector('a[href="#home"]').classList.add('active');
+                return;
+            }
+
+            sections.forEach((section, index) => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+
+                if (scrollPosition >= sectionTop - 200 && 
+                    scrollPosition < sectionTop + sectionHeight - 200) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    navLinks[index].classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveNavItem);
+        window.addEventListener('load', updateActiveNavItem);
+
+        // Improved smooth scroll functionality
+        document.querySelectorAll('.nav-item').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (!targetSection) return;
+
+                let offsetPosition;
+                
+                // Special handling for home section
+                if (targetId === '#home') {
+                    offsetPosition = 0;
+                } else {
+                    const headerOffset = 100;
+                    const elementPosition = targetSection.getBoundingClientRect().top;
+                    offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                }
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            });
         });
     </script>
 </body>
-</html>
+</html> 
