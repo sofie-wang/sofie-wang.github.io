@@ -3,711 +3,419 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sofie Wang</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400&family=Italiana&display=swap');
-
-        :root {
-            --primary: #9A7BA8;
-            --primary-light: #BFA3C7;
-            --accent: #E6D7EE;
-            --text: #2C2C2C;
-            --background: #FDFBFF;
-            --spacing: clamp(2rem, 5vw, 5rem);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            text-decoration: none;
-        }
-
-        body {
-            background: 
-                radial-gradient(circle at 0% 0%, rgba(191, 163, 199, 0.07) 0%, transparent 50%),
-                radial-gradient(circle at 100% 0%, rgba(154, 123, 168, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 100% 100%, rgba(191, 163, 199, 0.07) 0%, transparent 50%),
-                radial-gradient(circle at 0% 100%, rgba(154, 123, 168, 0.05) 0%, transparent 50%),
-                var(--background);
-            color: var(--text);
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 300;
-            line-height: 1.8;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-        }
-
-        header {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            background: 
-                linear-gradient(135deg, rgba(157,122,165,0.05) 0%, transparent 50%),
-                linear-gradient(225deg, rgba(230,215,238,0.07) 0%, transparent 50%),
-                linear-gradient(315deg, rgba(157,122,165,0.03) 0%, transparent 50%);
-        }
-
-        header::before, header::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary-light), transparent);
-        }
-
-        header::before { top: 0; }
-        header::after { bottom: 0; }
-
-        .header-content {
-            text-align: center;
-            z-index: 2;
-            opacity: 0;
-            animation: fadeUp 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-            position: relative;
-        }
-
-        .header-content::before {
-            content: '✧';
-            position: absolute;
-            top: -3rem;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--primary);
-            font-size: 1.5rem;
-            opacity: 0.5;
-        }
-
-        h1 {
-            font-family: 'Italiana', serif;
-            font-size: clamp(3.5rem, 10vw, 6.5rem);
-            font-weight: 400;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            letter-spacing: 4px;
-            line-height: 1.1;
-        }
-
-        .subtitle {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.4rem;
-            color: var(--text);
-            opacity: 0.8;
-            margin-bottom: var(--spacing);
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            font-weight: 300;
-        }
-
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 3.5rem;
-            flex-wrap: wrap;
-            margin-top: 3rem;
-            position: relative;
-        }
-
-        .contact-info::before {
-            content: '';
-            position: absolute;
-            top: -2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 1px;
-            background: var(--primary);
-            opacity: 0.3;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-size: 0.9rem;
-            color: var(--text);
-            opacity: 0.7;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 0.6rem 1.2rem;
-            border-radius: 2px;
-            position: relative;
-        }
-
-        .contact-item::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--primary);
-            transition: width 0.4s ease;
-        }
-
-        .contact-item:hover {
-            opacity: 1;
-            transform: translateY(-3px);
-            color: var(--primary);
-        }
-
-        .contact-item:hover::after {
-            width: 100%;
-        }
-
-        .contact-item i {
-            font-size: 1.1rem;
-            color: var(--primary);
-        }
-
-        section {
-            padding: var(--spacing) 0;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            margin: 2rem 0;
-            border-radius: 2px;
-            padding: calc(var(--spacing) * 1.2) 2rem;
-        }
-
-        section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(157,122,165,0.03) 0%, transparent 100%);
-            pointer-events: none;
-        }
-
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .section-title {
-            font-family: 'Italiana', serif;
-            font-size: 2.8rem;
-            font-weight: 400;
-            color: var(--primary);
-            margin-bottom: 4rem;
-            position: relative;
-            display: inline-block;
-            letter-spacing: 2px;
-        }
-
-        .section-title::before {
-            display: none;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 0;
-            width: 70%;
-            height: 1px;
-            background: linear-gradient(90deg, var(--primary), transparent);
-        }
-
-        .experience-item {
-            margin-bottom: 5rem;
-            position: relative;
-            padding-left: 3rem;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .experience-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 1px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--primary), transparent);
-            opacity: 0.3;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .experience-item:hover::before {
-            opacity: 1;
-            transform: scaleY(1.05);
-        }
-
-        .experience-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8rem;
-            color: var(--text);
-            margin-bottom: 0.8rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-
-        .experience-company {
-            font-size: 1rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            letter-spacing: 1.5px;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 300;
-        }
-
-        .experience-date {
-            font-size: 0.9rem;
-            opacity: 0.7;
-            margin-bottom: 1.8rem;
-            font-weight: 200;
-            letter-spacing: 1px;
-        }
-
-        .experience-details {
-            font-size: 0.95rem;
-            opacity: 0.85;
-            list-style: none;
-            padding-left: 0.5rem;
-        }
-
-        .experience-details li {
-            margin-bottom: 1rem;
-            position: relative;
-            padding-left: 1.8rem;
-            line-height: 1.6;
-        }
-
-        .experience-details li::before {
-            content: '✧';
-            position: absolute;
-            left: 0;
-            color: var(--primary);
-            opacity: 0.5;
-            font-size: 0.9rem;
-            top: 2px;
-        }
-
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            padding: 1.5rem 0;
-        }
-
-        .skill-tag {
-            padding: 0.8rem 2.2rem;
-            border: 1px solid var(--primary-light);
-            border-radius: 0;
-            font-size: 0.9rem;
-            opacity: 0.85;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            letter-spacing: 1px;
-            position: relative;
-            background: transparent;
-            overflow: hidden;
-        }
-
-        .skill-tag::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            z-index: -1;
-        }
-
-        .skill-tag:hover {
-            color: white;
-            opacity: 1;
-            transform: translateY(-3px);
-            border-color: transparent;
-        }
-
-        .skill-tag:hover::before {
-            opacity: 1;
-        }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .contact-info {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-
-            .experience-item {
-                padding-left: 2rem;
-            }
-
-            .section-title {
-                font-size: 2.2rem;
-            }
-
-            .experience-title {
-                font-size: 1.5rem;
-            }
-
-            .skill-tag {
-                padding: 0.7rem 1.8rem;
-            }
-
-            .download-cv {
-                padding: 0.8rem 2rem;
-                font-size: 0.85rem;
-            }
-        }
-
-        .download-cv {
-            margin-top: 3rem;
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--primary);
-            border: 1px solid var(--primary);
-            background: transparent;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .download-cv::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            z-index: -1;
-        }
-
-        .download-cv:hover {
-            color: white;
-            transform: translateY(-3px);
-            border-color: transparent;
-        }
-
-        .download-cv:hover::before {
-            opacity: 1;
-        }
-
-        .download-cv i {
-            margin-left: 0.8rem;
-            font-size: 0.9rem;
-            transition: transform 0.3s ease;
-        }
-
-        .download-cv:hover i {
-            transform: translateX(3px);
-        }
-
-        .nav {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            mix-blend-mode: difference;
-        }
-
-        .nav-item {
-            position: relative;
-            color: white;
-            text-decoration: none;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            padding: 0.5rem;
-            transition: all 0.4s ease;
-            opacity: 0.7;
-        }
-
-        .nav-item::after {
-            content: '';
-            position: absolute;
-            right: -1rem;
-            top: 50%;
-            width: 0;
-            height: 1px;
-            background: white;
-            transition: width 0.4s ease;
-        }
-
-        .nav-item:hover {
-            opacity: 1;
-            transform: translateX(-0.5rem);
-        }
-
-        .nav-item:hover::after {
-            width: 1.5rem;
-        }
-
-        .nav-item.active {
-            opacity: 1;
-        }
-
-        .nav-item.active::after {
-            width: 1.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .nav {
-                top: auto;
-                bottom: 2rem;
-                right: 50%;
-                transform: translateX(50%);
-                flex-direction: row;
-                gap: 2rem;
-                background: rgba(154, 123, 168, 0.1);
-                backdrop-filter: blur(10px);
-                padding: 1rem 2rem;
-                border-radius: 100px;
-            }
-
-            .nav-item {
-                color: var(--primary);
-                mix-blend-mode: normal;
-            }
-
-            .nav-item::after {
-                display: none;
-            }
-
-            .nav-item:hover {
-                transform: translateY(-3px);
-            }
-        }
-    </style>
+    <title>Yuying Wang · UX Researcher & Designer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pVnXfTsgHxJ5r5cXKZ3D6fZ8uu8ZjJyzprn4lFE8Y1nAdOBoyG2n7NX1BqfF2hp6Digw1k3D6Z0fjQX+7G1wEg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav class="nav">
-        <a href="#home" class="nav-item active">Home</a>
-        <a href="#education" class="nav-item">Education</a>
-        <a href="#experience" class="nav-item">Experience</a>
-        <a href="#skills" class="nav-item">Skills</a>
+    <div class="page">
+        <nav class="site-nav" role="navigation" aria-label="Primary">
+            <div class="container">
+                <a class="brand" href="#home" aria-label="Home"><span class="brand-highlight">Sophie</span> Yuying Wang</a>
+            <div class="nav-links">
+                    <a class="nav-link active" href="#home">Home</a>
+                    <a class="nav-link" href="#work">Projects</a>
+                    <a class="nav-link" href="#education">Education</a>
+                    <a class="nav-link" href="#experience">Experience</a>
+                    <a class="nav-link" href="#skills">Skills</a>
+                    <a class="nav-link" href="#leadership">Leadership</a>
+            </div>
+        </div>
     </nav>
 
-    <header id="home">
-        <div class="header-content">
-            <h1>Yuying Wang</h1>
-            <div class="subtitle">Sofie</div>
-            <div class="contact-info">
-                <a href="#" class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    London
-                </a>
-                <a href="tel:+8613472648023" class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    +86 134-7264-8023
-                </a>
-                <a href="tel:+447410600291" class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    +44(0) 7410-600-291
-                </a>
-                <a href="mailto:sofie10124@gmail.com" class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    sofie10124@gmail.com
-                </a>
+        <header id="home" class="hero">
+        <div class="container hero-grid">
+                <div class="hero-intro">
+                    <p class="eyebrow">UX Researcher & Designer</p>
+                    <h1 class="hero-title">Crafting <span class="hero-highlight">playful</span>, educational experiences.</h1>
+                    <p class="hero-body">I combine psychology and design to build learning experiences that support curiosity, understanding, and growth</p>
+                    <div class="hero-chips" aria-label="Focus areas">
+                        <span class="hero-chip">UX Research</span>
+                        <span class="hero-chip">Educational Design</span>
+                        <span class="hero-chip">Learning Sciences</span>
+                </div>
+                    <div class="hero-cta">
+                        <a href="portfolio-yuying-wang.pdf" class="btn btn-primary" download>Portfolio<i class="fas fa-arrow-right"></i></a>
+                        <a href="cv-yuying-wang.pdf" class="btn btn-ghost" download>Download CV<i class="fas fa-download"></i></a>
+                </div>
+                </div>
+                <div class="hero-panel" aria-label="Snapshot">
+                    <p class="panel-title">About Me</p>
+                    <div class="panel-stats">
+                        <div class="stat">
+                            <span class="stat-label">Location</span>
+                            <span class="stat-value">London, UK</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Email</span>
+                            <span class="stat-value"><a href="mailto:sophiewang1012@outlook.com">sophiewang1012@outlook.com</a></span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">School</span>
+                            <span class="stat-value">University College London</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Degree</span>
+                            <span class="stat-value">BSc Psychology with Education</span>
+                </div>
             </div>
-            <a href="cv.pdf" download class="download-cv">
-                Download CV <i class="fas fa-arrow-right"></i>
-            </a>
+            </div>
         </div>
     </header>
 
+        <main>
+            <section id="work" class="section">
     <div class="container">
-        <section id="education">
-            <h2 class="section-title">Education</h2>
-            <div class="experience-item">
-                <div class="experience-title">BSc Psychology with Education</div>
-                <div class="experience-company">University College London</div>
-                <div class="experience-date">September 2023 - Present</div>
+                    <div class="section-header">
+                        <div>
+                            <p class="eyebrow">Featured</p>
+                            <h2 class="section-title">Selected Projects</h2>
+                </div>
+                    </div>
+                    <div class="featured-grid" id="portfolioGrid"></div>
             </div>
         </section>
 
-        <section id="experience">
-            <h2 class="section-title">Experience</h2>
-            
-            <div class="experience-item">
-                <div class="experience-title">Public Relations Team Member</div>
-                <div class="experience-company">EZ Wellbeing Connection</div>
-                <div class="experience-date">November 2024 - Present</div>
-                <ul class="experience-details">
-                    <li>Contacted therapists and counselling professionals for collaboration</li>
-                    <li>Developed stakeholder relationships</li>
-                    <li>Designed communication strategies for outreach campaigns</li>
-                </ul>
-            </div>
-
-            <div class="experience-item">
-                <div class="experience-title">Human Resources Intern</div>
-                <div class="experience-company">Shanghai Investment Venture Capital</div>
-                <div class="experience-date">August 2024 - September 2024</div>
-                <ul class="experience-details">
-                    <li>Assisted in recruitment processes</li>
-                    <li>Managed company materials and documentation</li>
-                    <li>Evaluated applications from job-seeking platforms</li>
-                </ul>
-            </div>
-
-            <div class="experience-item">
-                <div class="experience-title">TOFEL & IELTS Teaching Assistant</div>
-                <div class="experience-company">Alpha Test Prep, AFfinity Education</div>
-                <div class="experience-date">March 2023 - March 2024</div>
-                <ul class="experience-details">
-                    <li>Assisted students with exam preparation</li>
-                    <li>Administered mock tests and provided feedback</li>
-                    <li>Adapted teaching methods for remote instruction</li>
-                </ul>
+            <section id="education" class="section">
+                <div class="container">
+                    <div class="section-header">
+                        <div>
+                            <p class="eyebrow">Education</p>
+                            <h2 class="section-title">Academic Path</h2>
+                        </div>
+                    </div>
+                    <div class="timeline">
+                        <article class="timeline-card">
+                            <div class="timeline-meta">
+                                <span>London, UK</span>
+                                <span>Sep 2023 — Jul 2026</span>
+                            </div>
+                            <h3 class="timeline-title">University College London (UCL)</h3>
+                            <p class="timeline-text">BSc Psychology with Education</p>
+                        </article>
+                    </div>
             </div>
         </section>
 
-        <section id="skills">
-            <h2 class="section-title">Skills</h2>
-            <div class="skills">
-                <span class="skill-tag">Python</span>
-                <span class="skill-tag">PsychoPy</span>
-                <span class="skill-tag">R Studio</span>
-                <span class="skill-tag">SPSS</span>
-                <span class="skill-tag">Microsoft Office</span>
-                <span class="skill-tag">Adobe Photoshop</span>
+        <section id="experience" class="section">
+                <div class="container">
+                    <div class="section-header">
+                        <div>
+                            <p class="eyebrow">Experience</p>
+                            <h2 class="section-title">Research & Work Experience</h2>
+                        </div>
+                    </div>
+                    <div class="timeline">
+                        <article class="timeline-card">
+                            <div class="timeline-meta">
+                                <span>University of Pittsburgh · Dept. of Informatics & Networked Systems</span>
+                                <span>May 2025 — Sep 2025</span>
+                            </div>
+                            <h3 class="timeline-title">Research Assistant · Quantum Information Science Summer Camp</h3>
+                            <ul class="timeline-list">
+                                <li>Sourced and archived beginner-friendly papers and media on qubits, entanglement, and superposition.</li>
+                                <li>Built mind maps to visualize core concepts for camp curriculum planning.</li>
+                                <li>Translated academic content into slide outlines and classroom prompts.</li>
+                                <li>Coded and analyzed post-camp interviews to capture conceptual shifts.</li>
+                            </ul>
+                        </article>
+                        <article class="timeline-card">
+                            <div class="timeline-meta">
+                                <span>University College London · London, UK</span>
+                                <span>Jan 2025 — Mar 2025</span>
+                            </div>
+                            <h3 class="timeline-title">Research Assistant · Advisor: Dr. Juhayna Taha (UCL)</h3>
+                            <ul class="timeline-list">
+                                <li>Edited bilingual questionnaires, refining 20 terminology and grammar points.</li>
+                                <li>Implemented cognitive-interview feedback and five scale revisions.</li>
+                                <li>Co-developed a three-strata quota plan covering 31 provinces and rural areas.</li>
+                </ul>
+                        </article>
+                        <article class="timeline-card">
+                            <div class="timeline-meta">
+                                <span>Centre Testing International Group Co., Ltd. (CTI) · Shanghai, China</span>
+                                <span>Jun 2025 — Aug 2025</span>
+            </div>
+                            <h3 class="timeline-title">User Research Intern · Food & Biochemical Division</h3>
+                            <ul class="timeline-list">
+                                <li>Designed 30-dimension questionnaires on appearance, texture, skin-feel, and efficacy.</li>
+                                <li>Conducted standardized in-lab assessments and captured user-experience responses.</li>
+                                <li>Cleaned data in Excel & SPSS and authored analytical reports for product teams.</li>
+                </ul>
+                        </article>
+                        <article class="timeline-card">
+                            <div class="timeline-meta">
+                                <span>EZ Wellbeing Connection · London, UK</span>
+                                <span>Sep 2024 — Present</span>
+            </div>
+                            <h3 class="timeline-title">Head of Public Relations & Communications</h3>
+                            <ul class="timeline-list">
+                                <li>Contacted 100+ therapists and mental-health platforms to secure collaborations.</li>
+                                <li>Maintained regular partner check-ins to boost engagement and visibility.</li>
+                                <li>Produced WeChat articles and visuals driving a 45% MoM lift in readership.</li>
+                                <li>Co-built the official website with registration and resource-download features.</li>
+                </ul>
+                        </article>
+                    </div>
             </div>
         </section>
+
+            <section id="leadership" class="section">
+                <div class="container">
+                    <div class="section-header">
+                        <div>
+                            <p class="eyebrow">Leadership</p>
+                            <h2 class="section-title">Leadership</h2>
+                        </div>
+                    </div>
+                    <div class="timeline">
+                        <article class="timeline-card">
+                            <div class="timeline-meta">
+                                <span>EZ Wellbeing Connection</span>
+                                <span>Sep 2024 — Present</span>
+                            </div>
+                            <h3 class="timeline-title">Head of Public Relations & Communications</h3>
+                            <ul class="timeline-list">
+                                <li>Contacted 100+ therapists and mental-health platforms to assess partnership potential.</li>
+                                <li>Ran regular check-ins with partners to boost engagement and brand visibility.</li>
+                                <li>Crafted WeChat articles and campaign visuals, driving a 45% MoM increase in readership.</li>
+                                <li>Co-built and maintained the official website with registration and resource downloads.</li>
+                            </ul>
+                        </article>
+                    </div>
+            </div>
+        </section>
+
+        <section id="skills" class="section">
+                <div class="container">
+                    <div class="section-header">
+                        <div>
+                            <p class="eyebrow">Toolkit</p>
+                            <h2 class="section-title">Skills & Credentials</h2>
+                        </div>
+                    </div>
+                    <div class="skill-layout">
+                        <div class="skill-cards">
+                            <article class="skill-card">
+                                <h3>Programming & Data</h3>
+                                <div class="skill-pills">
+                                    <span class="skill-pill">Python</span>
+                                    <span class="skill-pill">R Studio</span>
+                                    <span class="skill-pill">SPSS</span>
+                                </div>
+                            </article>
+                            <article class="skill-card">
+                                <h3>Experiment & Prototyping</h3>
+                                <div class="skill-pills">
+                                    <span class="skill-pill">PsychoPy</span>
+                                    <span class="skill-pill">Figma</span>
+                                    <span class="skill-pill">Workshop Design</span>
+                                </div>
+                            </article>
+                        </div>
+                        <article class="cert-highlight">
+                            <h3>Certificates</h3>
+                            <div class="cert-grid">
+                                <div class="cert-card">
+                                    <span class="cert-label">2024</span>
+                                    <strong>CMU LearnLab · UX Design for Effective Instruction</strong>
+                                    <p>Studio program on learning-science-informed UX, prototyping instructional products with research loops.</p>
+                                </div>
+                                <div class="cert-card">
+                                    <span class="cert-label">2024</span>
+                                    <strong>PKU Summer School International · Images & Society</strong>
+                                    <p>Field-based exploration of media ecosystems and visual culture across Beijing seminars and labs.</p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+            </div>
+        </section>
+
+        </main>
+
+    <footer class="footer">
+        <div class="container">
+                © <span id="year"></span> Yuying Wang · Designed with care in London
+        </div>
+    </footer>
     </div>
 
     <script>
-        // Initialize home as active on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            // Set home as active by default
-            document.querySelector('a[href="#home"]').classList.add('active');
-            
-            // Ensure we're at the top of the page
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
+        // Year stamp
+        document.getElementById('year').textContent = new Date().getFullYear();
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '50px'
-        });
+        // Scroll spy & smooth scroll
+        const navLinks = document.querySelectorAll('.nav-link');
 
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
-        });
+        function setActiveLink() {
+            const sections = document.querySelectorAll('header[id], section');
+            const scrollPos = window.pageYOffset || document.documentElement.scrollTop;
 
-        // Parallax effect for header
-        document.addEventListener('scroll', () => {
-            const header = document.querySelector('.header-content');
-            const scrolled = window.pageYOffset;
-            const parallaxSpeed = 0.4;
-            header.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
-            header.style.opacity = 1 - (scrolled * 0.0015);
-        });
-
-        // Add hover effect to experience items
-        document.querySelectorAll('.experience-item').forEach(item => {
-            item.addEventListener('mouseenter', () => {
-                item.style.transform = 'translateX(10px)';
-            });
-            item.addEventListener('mouseleave', () => {
-                item.style.transform = 'translateX(0)';
-            });
-        });
-
-        // Improved scroll spy functionality
-        function updateActiveNavItem() {
-            const sections = document.querySelectorAll('section, header');
-            const navLinks = document.querySelectorAll('.nav-item');
-            const scrollPosition = window.pageYOffset;
-
-            // Special case for home section
-            if (scrollPosition < window.innerHeight / 2) {
-                navLinks.forEach(link => link.classList.remove('active'));
-                document.querySelector('a[href="#home"]').classList.add('active');
-                return;
-            }
-
-            sections.forEach((section, index) => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.offsetHeight;
-
-                if (scrollPosition >= sectionTop - 200 && 
-                    scrollPosition < sectionTop + sectionHeight - 200) {
+            sections.forEach(section => {
+                const top = section.offsetTop - 120;
+                const bottom = top + section.offsetHeight;
+                if (scrollPos >= top && scrollPos < bottom) {
                     navLinks.forEach(link => link.classList.remove('active'));
-                    navLinks[index].classList.add('active');
+                    const target = document.querySelector(`.nav-link[href="#${section.id}"]`);
+                    if (target) target.classList.add('active');
                 }
             });
         }
 
-        window.addEventListener('scroll', updateActiveNavItem);
-        window.addEventListener('load', updateActiveNavItem);
-
-        // Improved smooth scroll functionality
-        document.querySelectorAll('.nav-item').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
                 e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                const targetSection = document.querySelector(targetId);
-                
-                if (!targetSection) return;
+                const id = link.getAttribute('href').replace('#', '');
+                const target = document.getElementById(id);
+                if (target) {
+                    window.scrollTo({ top: target.offsetTop - 70, behavior: 'smooth' });
+                }
+            });
+        });
 
-                let offsetPosition;
-                
-                // Special handling for home section
-                if (targetId === '#home') {
-                    offsetPosition = 0;
-                } else {
-                    const headerOffset = 100;
-                    const elementPosition = targetSection.getBoundingClientRect().top;
-                    offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.addEventListener('scroll', setActiveLink);
+        window.addEventListener('resize', setActiveLink);
+
+        // Overlay for immersive previews
+        const previewOverlay = document.createElement('div');
+        previewOverlay.className = 'portfolio-overlay';
+        previewOverlay.innerHTML = `
+            <div class="overlay-panel" role="dialog" aria-modal="true">
+                <div class="overlay-header">
+                    <div class="overlay-title"></div>
+                    <button class="overlay-close" aria-label="Close preview">&times;</button>
+                </div>
+                <div class="overlay-frame">
+                    <iframe title="Project preview" loading="lazy"></iframe>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(previewOverlay);
+        const overlayTitle = previewOverlay.querySelector('.overlay-title');
+        const overlayClose = previewOverlay.querySelector('.overlay-close');
+        const overlayFrame = previewOverlay.querySelector('iframe');
+
+        function openOverlay(title, pdf) {
+            overlayTitle.textContent = title;
+            overlayFrame.src = pdf;
+            previewOverlay.classList.add('open');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeOverlay() {
+            previewOverlay.classList.remove('open');
+            document.body.classList.remove('modal-open');
+            overlayFrame.src = '';
+        }
+
+        overlayClose.addEventListener('click', closeOverlay);
+        previewOverlay.addEventListener('click', (e) => {
+            if (e.target === previewOverlay) closeOverlay();
+        });
+
+        // Featured work cards sourced from /portfolios assets
+        function loadPortfolios() {
+            const projects = [
+                {
+                    id: 'moodie-tales',
+                    title: 'Moodie Tales',
+                    description: 'LLM-powered bedtime stories loop built from observing 3–8-year-olds and surveying parents, turning daily mood keywords into bilingual narratives.',
+                    pdf: '/portfolios/moodie-tales.pdf',
+                    image: '/portfolios/moodie-tales.png',
+                    timeframe: 'Mar 2025 — Jul 2025'
+                },
+                {
+                    id: 'quantum-adventure',
+                    title: 'Quantum Adventure',
+                    description: 'A serious board game that translates five core quantum concepts into intuitive, strategic mechanics, letting high-school students grasp abstract physics through playful interaction.',
+                    pdf: '/portfolios/quantum-adventure.pdf',
+                    image: '/portfolios/quantum-adventure.png',
+                    timeframe: 'May 2025 — Sep 2025'
+                }
+            ];
+
+                const grid = document.getElementById('portfolioGrid');
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target.querySelector('img[data-src]');
+                        if (img && !img.dataset.loaded) {
+                            img.dataset.loaded = 'true';
+                            img.src = img.dataset.src;
+                        }
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            projects.forEach(project => {
+                const block = document.createElement('div');
+                block.className = 'portfolio-block';
+
+                const row = document.createElement('article');
+                row.className = 'portfolio-row';
+
+                const media = document.createElement('div');
+                media.className = 'portfolio-media';
+                    const img = document.createElement('img');
+                img.alt = `${project.title} preview`;
+                img.dataset.src = project.image;
+                    img.loading = 'lazy';
+                    img.onerror = () => { img.style.display = 'none'; };
+                media.appendChild(img);
+
+                const content = document.createElement('div');
+                content.className = 'portfolio-content';
+
+                if (project.timeframe) {
+                    const meta = document.createElement('div');
+                    meta.className = 'portfolio-meta';
+                    meta.textContent = project.timeframe;
+                    content.appendChild(meta);
                 }
 
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
+                    const title = document.createElement('div');
+                    title.className = 'portfolio-title';
+                title.textContent = project.title;
+
+                    const desc = document.createElement('div');
+                    desc.className = 'portfolio-desc';
+                desc.textContent = project.description;
+
+                    const actions = document.createElement('div');
+                    actions.className = 'portfolio-actions';
+                    const download = document.createElement('a');
+                download.href = project.pdf;
+                    download.download = '';
+                download.className = 'btn btn-primary';
+                    download.innerHTML = 'Download <i class="fas fa-download"></i>';
+                download.addEventListener('click', (e) => e.stopPropagation());
+                    actions.appendChild(download);
+
+                content.appendChild(title);
+                content.appendChild(desc);
+                content.appendChild(actions);
+
+                row.appendChild(media);
+                row.appendChild(content);
+                block.appendChild(row);
+
+                block.addEventListener('click', () => {
+                    openOverlay(project.title, project.pdf);
                 });
+
+                grid.appendChild(block);
+                io.observe(row);
             });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setActiveLink();
+            loadPortfolios();
         });
     </script>
 </body>
-</html> 
+</html>
