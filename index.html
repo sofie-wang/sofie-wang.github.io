@@ -139,7 +139,7 @@
                                 <span>Centre Testing International Group Co., Ltd. (CTI) · Shanghai, China</span>
                                 <span>Jun 2025 — Aug 2025</span>
             </div>
-                            <h3 class="timeline-title">User Research Intern · Food & Biochemical Division</h3>
+                            <h3 class="timeline-title">User Research Intern</h3>
                             <ul class="timeline-list">
                                 <li>Designed 30-dimension questionnaires on appearance, texture, skin-feel, and efficacy.</li>
                                 <li>Conducted standardized in-lab assessments and captured user-experience responses.</li>
@@ -351,13 +351,13 @@
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
                             const img = entry.target.querySelector('img[data-src]');
-                        if (img && !img.dataset.loaded) {
-                            img.dataset.loaded = 'true';
-                            img.src = img.dataset.src;
+                            if (img && !img.dataset.loaded) {
+                                img.dataset.loaded = 'true';
+                                img.src = img.dataset.src;
+                            }
                         }
-                    }
-                });
-            }, { threshold: 0.2 });
+                    });
+                }, { threshold: 0.2 });
 
             projects.forEach(project => {
                 const block = document.createElement('div');
