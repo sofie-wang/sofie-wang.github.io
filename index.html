@@ -403,6 +403,15 @@
                 download.addEventListener('click', (e) => e.stopPropagation());
                     actions.appendChild(download);
 
+                    const view = document.createElement('a');
+                    view.href = project.pdf;
+                    view.target = '_blank';
+                    view.rel = 'noopener noreferrer';
+                    view.className = 'btn btn-ghost';
+                    view.innerHTML = 'View <i class="fas fa-eye"></i>';
+                    view.addEventListener('click', (e) => e.stopPropagation());
+                    actions.appendChild(view);
+
                 content.appendChild(title);
                 content.appendChild(desc);
                 content.appendChild(actions);
