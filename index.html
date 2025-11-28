@@ -343,6 +343,9 @@
 
         // Featured work cards sourced from /portfolios assets
         function loadPortfolios() {
+            function abs(path) {
+                try { return new URL(path, document.baseURI).href; } catch (_) { return path; }
+            }
             const projects = [
                 {
                     id: 'moodie-tales',
@@ -394,7 +397,7 @@
                 media.className = 'portfolio-media';
                     const img = document.createElement('img');
                 img.alt = `${project.title} preview`;
-                img.dataset.src = project.image;
+                img.dataset.src = abs(project.image);
                     img.loading = 'lazy';
                     img.onerror = () => { img.style.display = 'none'; };
                 media.appendChild(img);
@@ -420,7 +423,7 @@
                     const actions = document.createElement('div');
                     actions.className = 'portfolio-actions';
                     const download = document.createElement('a');
-                download.href = project.pdf;
+                download.href = abs(project.pdf);
                     download.download = '';
                 download.className = 'btn btn-primary';
                     download.innerHTML = 'Download <i class="fas fa-download"></i>';
@@ -437,13 +440,15 @@
                 block.appendChild(row);
 
                 block.addEventListener('click', () => {
+                    const host = location.hostname || '';
+                    const isProd = host.endsWith('.github.io') || host.includes('sofie-wang.github.io');
                     const supportsPdf = !!(navigator.mimeTypes && navigator.mimeTypes['application/pdf']);
                     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-                    if (!supportsPdf || isIOS) {
-                        window.open(project.pdf, '_blank', 'noopener,noreferrer');
+                    if (isProd || !supportsPdf || isIOS) {
+                        window.open(abs(project.pdf), '_blank', 'noopener,noreferrer');
                         return;
                     }
-                    openOverlay(project.title, project.pdf);
+                    openOverlay(project.title, abs(project.pdf));
                 });
 
                 grid.appendChild(block);
