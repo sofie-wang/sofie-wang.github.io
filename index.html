@@ -341,26 +341,6 @@
             if (e.target === previewOverlay) closeOverlay();
         });
 
-        function downloadPdf(url) {
-            fetch(url, { cache: 'no-store' }).then(async (res) => {
-                if (!res.ok) throw new Error('bad');
-                const buf = await res.arrayBuffer();
-                const bytes = new Uint8Array(buf);
-                const isPdf = bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46; // %PDF
-                if (!isPdf) throw new Error('not-pdf');
-                const blob = new Blob([buf], { type: 'application/pdf' });
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = url.split('/').pop() || 'file.pdf';
-                document.body.appendChild(a);
-                a.click();
-                URL.revokeObjectURL(a.href);
-                a.remove();
-            }).catch(() => {
-                window.open(url, '_blank', 'noopener,noreferrer');
-            });
-        }
-
         // Featured work cards sourced from /portfolios assets
         function loadPortfolios() {
             const projects = [
@@ -440,14 +420,11 @@
                     const actions = document.createElement('div');
                     actions.className = 'portfolio-actions';
                     const download = document.createElement('a');
-                    download.href = project.pdf;
-                    download.className = 'btn btn-primary';
+                download.href = project.pdf;
+                    download.download = '';
+                download.className = 'btn btn-primary';
                     download.innerHTML = 'Download <i class="fas fa-download"></i>';
-                    download.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        downloadPdf(project.pdf);
-                    });
+                download.addEventListener('click', (e) => e.stopPropagation());
                     actions.appendChild(download);
 
 
