@@ -345,7 +345,7 @@
         // Featured work cards sourced from /portfolios assets
         function loadPortfolios() {
             function abs(path) {
-                try { return new URL(path, document.baseURI).href; } catch (_) { return path; }
+                try { return new URL(path, location.origin).href; } catch (_) { return path; }
             }
             const projects = [
                 {
