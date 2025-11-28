@@ -437,6 +437,12 @@
                 block.appendChild(row);
 
                 block.addEventListener('click', () => {
+                    const supportsPdf = !!(navigator.mimeTypes && navigator.mimeTypes['application/pdf']);
+                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+                    if (!supportsPdf || isIOS) {
+                        window.open(project.pdf, '_blank', 'noopener,noreferrer');
+                        return;
+                    }
                     openOverlay(project.title, project.pdf);
                 });
 
