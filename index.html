@@ -300,11 +300,23 @@
         const overlayClose = previewOverlay.querySelector('.overlay-close');
         const overlayFrame = previewOverlay.querySelector('iframe');
 
+        function assetUrl(path) {
+            const host = location.hostname || '';
+            const isProd = host.endsWith('.github.io') || host.includes('sofie-wang.github.io');
+            if (isProd) {
+                const repo = 'sofie-wang/sofie-wang.github.io';
+                const branch = 'main';
+                if (/^https?:\/\//.test(path)) return path;
+                return `https://raw.githubusercontent.com/${repo}/${branch}/${path}`;
+            }
+            try { return new URL(path, location.origin).href; } catch (_) { return path; }
+        }
+
         function openOverlay(title, pdf) {
             overlayTitle.textContent = title;
             previewOverlay.classList.add('open');
             document.body.classList.add('modal-open');
-            overlayFrame.src = pdf;
+            overlayFrame.src = assetUrl(pdf);
 
             let fallbackTimer = setTimeout(() => {
                 try {
@@ -312,11 +324,11 @@
                     const loaded = doc && doc.body && doc.body.childNodes && doc.body.childNodes.length > 0;
                     if (!loaded) {
                         closeOverlay();
-                        window.open(pdf, '_blank', 'noopener,noreferrer');
+                        window.open(assetUrl(pdf), '_blank', 'noopener,noreferrer');
                     }
                 } catch (e) {
                     closeOverlay();
-                    window.open(pdf, '_blank', 'noopener,noreferrer');
+                    window.open(assetUrl(pdf), '_blank', 'noopener,noreferrer');
                 }
             }, 2000);
 
@@ -424,12 +436,12 @@
                     const actions = document.createElement('div');
                     actions.className = 'portfolio-actions';
                     const download = document.createElement('a');
-                download.href = abs(project.pdf);
-                    download.download = '';
+                download.href = assetUrl(project.pdf);
+                download.download = '';
                 download.className = 'btn btn-primary';
-                    download.innerHTML = 'Download <i class="fas fa-download"></i>';
+                download.innerHTML = 'Download <i class="fas fa-download"></i>';
                 download.addEventListener('click', (e) => e.stopPropagation());
-                    actions.appendChild(download);
+                actions.appendChild(download);
 
 
                 content.appendChild(title);
@@ -446,10 +458,10 @@
                     const supportsPdf = !!(navigator.mimeTypes && navigator.mimeTypes['application/pdf']);
                     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
                     if (isProd || !supportsPdf || isIOS) {
-                        window.open(abs(project.pdf), '_blank', 'noopener,noreferrer');
+                        window.open(assetUrl(project.pdf), '_blank', 'noopener,noreferrer');
                         return;
                     }
-                    openOverlay(project.title, abs(project.pdf));
+                    openOverlay(project.title, project.pdf);
                 });
 
                 grid.appendChild(block);
@@ -457,8 +469,17 @@
             });
         }
 
+        function fixPdfLinks() {
+            const links = Array.from(document.querySelectorAll('a[href$=".pdf"]'));
+            links.forEach(a => {
+                const href = a.getAttribute('href');
+                if (href) a.href = assetUrl(href);
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             setActiveLink();
+            fixPdfLinks();
             loadPortfolios();
         });
     </script>
