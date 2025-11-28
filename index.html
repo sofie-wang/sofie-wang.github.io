@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pVnXfTsgHxJ5r5cXKZ3D6fZ8uu8ZjJyzprn4lFE8Y1nAdOBoyG2n7NX1BqfF2hp6Digw1k3D6Z0fjQX+7G1wEg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=20251128">
 </head>
 <body>
     <div class="page">
@@ -301,9 +301,33 @@
 
         function openOverlay(title, pdf) {
             overlayTitle.textContent = title;
-            overlayFrame.src = pdf;
             previewOverlay.classList.add('open');
             document.body.classList.add('modal-open');
+            overlayFrame.src = pdf;
+
+            let fallbackTimer = setTimeout(() => {
+                try {
+                    const doc = overlayFrame.contentDocument || (overlayFrame.contentWindow && overlayFrame.contentWindow.document);
+                    const loaded = doc && doc.body && doc.body.childNodes && doc.body.childNodes.length > 0;
+                    if (!loaded) {
+                        closeOverlay();
+                        window.open(pdf, '_blank', 'noopener,noreferrer');
+                    }
+                } catch (e) {
+                    closeOverlay();
+                    window.open(pdf, '_blank', 'noopener,noreferrer');
+                }
+            }, 2000);
+
+            overlayFrame.onload = () => {
+                clearTimeout(fallbackTimer);
+            };
+
+            overlayFrame.onerror = () => {
+                clearTimeout(fallbackTimer);
+                closeOverlay();
+                window.open(pdf, '_blank', 'noopener,noreferrer');
+            };
         }
 
         function closeOverlay() {
@@ -403,14 +427,6 @@
                 download.addEventListener('click', (e) => e.stopPropagation());
                     actions.appendChild(download);
 
-                    const view = document.createElement('a');
-                    view.href = project.pdf;
-                    view.target = '_blank';
-                    view.rel = 'noopener noreferrer';
-                    view.className = 'btn btn-ghost';
-                    view.innerHTML = 'View <i class="fas fa-eye"></i>';
-                    view.addEventListener('click', (e) => e.stopPropagation());
-                    actions.appendChild(view);
 
                 content.appendChild(title);
                 content.appendChild(desc);

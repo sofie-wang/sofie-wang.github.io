@@ -22,6 +22,7 @@
   --space-lg: 2.4rem;
   --space-xl: 3.4rem;
   --space-2xl: 4.5rem;
+  --space-2xs: 0.4rem;
   --shadow-soft: 0 20px 60px rgba(32, 24, 52, 0.08);
   --shadow-card: 0 14px 30px rgba(43, 28, 94, 0.1);
 }
