@@ -341,6 +341,28 @@
             if (e.target === previewOverlay) closeOverlay();
         });
 
+        function downloadPdf(url) {
+            fetch(url, { cache: 'no-store' }).then(res => {
+                const ct = res.headers.get('content-type') || '';
+                if (!res.ok) throw new Error('bad');
+                return res.blob().then(blob => ({ blob, ct }));
+            }).then(({ blob, ct }) => {
+                if (!ct.includes('pdf')) {
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                    return;
+                }
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = url.split('/').pop() || 'file.pdf';
+                document.body.appendChild(a);
+                a.click();
+                URL.revokeObjectURL(a.href);
+                a.remove();
+            }).catch(() => {
+                window.open(url, '_blank', 'noopener,noreferrer');
+            });
+        }
+
         // Featured work cards sourced from /portfolios assets
         function loadPortfolios() {
             const projects = [
@@ -348,24 +370,24 @@
                     id: 'moodie-tales',
                     title: 'Moodie Tales',
                     description: 'LLM-powered bedtime stories loop built from observing 3–8-year-olds and surveying parents, turning daily mood keywords into bilingual narratives.',
-                    pdf: '/portfolios/moodie-tales.pdf',
-                    image: '/portfolios/moodie-tales.png',
+                    pdf: 'portfolios/moodie-tales.pdf',
+                    image: 'portfolios/moodie-tales.png',
                     timeframe: 'Mar 2025 — Jul 2025'
                 },
                 {
                     id: 'quantum-adventure',
                     title: 'Quantum Adventure',
                     description: 'A serious board game that translates five core quantum concepts into intuitive, strategic mechanics, letting high-school students grasp abstract physics through playful interaction.',
-                    pdf: '/portfolios/quantum-adventure.pdf',
-                    image: '/portfolios/quantum-adventure.png',
+                    pdf: 'portfolios/quantum-adventure.pdf',
+                    image: 'portfolios/quantum-adventure.png',
                     timeframe: 'May 2025 — Sep 2025'
                 },
                 {
                     id: 'silk-world',
                     title: 'Silk World',
                     description: 'This project transforms traditional silkworm raising into an engaging educational experience by blending field research, game design, and intelligent device prototyping into a cohesive learning system. It highlights a full design process from user insights to final UI and physical build, showcasing a thoughtful approach to making cultural learning accessible and interactive for children and families.',
-                    pdf: '/portfolios/silk-world.pdf',
-                    image: '/portfolios/silk-world.png',
+                    pdf: 'portfolios/silk-world.pdf',
+                    image: 'portfolios/silk-world.png',
                     timeframe: 'MAY 2025 — NOV 2025'
                 }
             ];
@@ -420,11 +442,14 @@
                     const actions = document.createElement('div');
                     actions.className = 'portfolio-actions';
                     const download = document.createElement('a');
-                download.href = project.pdf;
-                    download.download = '';
-                download.className = 'btn btn-primary';
+                    download.href = project.pdf;
+                    download.className = 'btn btn-primary';
                     download.innerHTML = 'Download <i class="fas fa-download"></i>';
-                download.addEventListener('click', (e) => e.stopPropagation());
+                    download.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        downloadPdf(project.pdf);
+                    });
                     actions.appendChild(download);
 
 
