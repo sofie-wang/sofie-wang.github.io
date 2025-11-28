@@ -342,15 +342,13 @@
         });
 
         function downloadPdf(url) {
-            fetch(url, { cache: 'no-store' }).then(res => {
-                const ct = res.headers.get('content-type') || '';
+            fetch(url, { cache: 'no-store' }).then(async (res) => {
                 if (!res.ok) throw new Error('bad');
-                return res.blob().then(blob => ({ blob, ct }));
-            }).then(({ blob, ct }) => {
-                if (!ct.includes('pdf')) {
-                    window.open(url, '_blank', 'noopener,noreferrer');
-                    return;
-                }
+                const buf = await res.arrayBuffer();
+                const bytes = new Uint8Array(buf);
+                const isPdf = bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46; // %PDF
+                if (!isPdf) throw new Error('not-pdf');
+                const blob = new Blob([buf], { type: 'application/pdf' });
                 const a = document.createElement('a');
                 a.href = URL.createObjectURL(blob);
                 a.download = url.split('/').pop() || 'file.pdf';
