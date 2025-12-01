@@ -39,8 +39,8 @@
                         <span class="hero-chip">Learning Sciences</span>
                 </div>
                     <div class="hero-cta">
-                        <a href="https://raw.githubusercontent.com/sofie-wang/sofie-wang.github.io/main/portfolio-yuying-wang.pdf" class="btn btn-primary" download>Portfolio<i class="fas fa-arrow-right"></i></a>
-                        <a href="https://raw.githubusercontent.com/sofie-wang/sofie-wang.github.io/main/cv-yuying-wang.pdf" class="btn btn-ghost" download>Download CV<i class="fas fa-download"></i></a>
+                        <a href="portfolio-yuying-wang.pdf" class="btn btn-primary" download>Portfolio<i class="fas fa-arrow-right"></i></a>
+                        <a href="cv-yuying-wang.pdf" class="btn btn-ghost" download>Download CV<i class="fas fa-download"></i></a>
                 </div>
                 </div>
                 <div class="hero-panel" aria-label="Snapshot">
@@ -147,19 +147,7 @@
                                 <li>Cleaned data in Excel & SPSS and authored analytical reports for product teams.</li>
                 </ul>
                         </article>
-                        <article class="timeline-card">
-                            <div class="timeline-meta">
-                                <span>EZ Wellbeing Connection · London, UK</span>
-                                <span>Sep 2024 — Present</span>
-            </div>
-                            <h3 class="timeline-title">Head of Public Relations & Communications</h3>
-                            <ul class="timeline-list">
-                                <li>Contacted 100+ therapists and mental-health platforms to secure collaborations.</li>
-                                <li>Maintained regular partner check-ins to boost engagement and visibility.</li>
-                                <li>Produced WeChat articles and visuals driving a 45% MoM lift in readership.</li>
-                                <li>Co-built the official website with registration and resource-download features.</li>
-                </ul>
-                        </article>
+                        
                     </div>
             </div>
         </section>
@@ -301,22 +289,19 @@
         const overlayFrame = previewOverlay.querySelector('iframe');
 
         function assetUrl(path) {
-            try {
-                if (/^https?:\/\//.test(path)) return path;
-                const host = location.hostname || '';
-                const isPages = /\.github\.io$/.test(host) || host.includes('sofie-wang.github.io');
-                if (isPages && /\.pdf(\?|#|$)/i.test(path)) {
-                    return `https://raw.githubusercontent.com/sofie-wang/sofie-wang.github.io/main/${path}`;
-                }
-                return new URL(path, document.baseURI).href;
-            } catch (_) { return path; }
+            try { return /^https?:\/\//.test(path) ? path : new URL(path, document.baseURI).href; } catch (_) { return path; }
+        }
+
+        function viewerUrl(pdf) {
+            const file = encodeURIComponent(assetUrl(pdf));
+            return `https://mozilla.github.io/pdf.js/web/viewer.html?file=${file}#zoom=page-width`;
         }
 
         function openOverlay(title, pdf) {
             overlayTitle.textContent = title;
             previewOverlay.classList.add('open');
             document.body.classList.add('modal-open');
-            const url = assetUrl(pdf);
+            const url = viewerUrl(pdf);
             overlayFrame.src = url;
             overlayFrame.onerror = () => {
                 closeOverlay();
