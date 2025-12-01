@@ -302,6 +302,14 @@
 
         function assetUrl(path) {
             if (/^https?:\/\//.test(path)) return path;
+            const host = location.hostname || '';
+            const isProd = host.endsWith('.github.io') || host.includes('sofie-wang.github.io');
+            if (isProd) {
+                const owner = 'sofie-wang';
+                const repo = 'sofie-wang.github.io';
+                const branch = 'main';
+                return `https://media.githubusercontent.com/media/${owner}/${repo}/${branch}/${path}`;
+            }
             try { return new URL(path, location.origin).href; } catch (_) { return path; }
         }
 
