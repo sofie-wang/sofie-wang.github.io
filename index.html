@@ -301,46 +301,18 @@
         const overlayFrame = previewOverlay.querySelector('iframe');
 
         function assetUrl(path) {
-            if (/^https?:\/\//.test(path)) return path;
-            const host = location.hostname || '';
-            const isProd = host.endsWith('.github.io') || host.includes('sofie-wang.github.io');
-            if (isProd) {
-                const owner = 'sofie-wang';
-                const repo = 'sofie-wang.github.io';
-                const branch = 'main';
-                return `https://media.githubusercontent.com/media/${owner}/${repo}/${branch}/${path}`;
-            }
-            try { return new URL(path, location.origin).href; } catch (_) { return path; }
+            try { return /^https?:\/\//.test(path) ? path : new URL(path, document.baseURI).href; } catch (_) { return path; }
         }
 
         function openOverlay(title, pdf) {
             overlayTitle.textContent = title;
             previewOverlay.classList.add('open');
             document.body.classList.add('modal-open');
-            overlayFrame.src = assetUrl(pdf);
-
-            let fallbackTimer = setTimeout(() => {
-                try {
-                    const doc = overlayFrame.contentDocument || (overlayFrame.contentWindow && overlayFrame.contentWindow.document);
-                    const loaded = doc && doc.body && doc.body.childNodes && doc.body.childNodes.length > 0;
-                    if (!loaded) {
-                        closeOverlay();
-                        window.open(assetUrl(pdf), '_blank', 'noopener,noreferrer');
-                    }
-                } catch (e) {
-                    closeOverlay();
-                    window.open(assetUrl(pdf), '_blank', 'noopener,noreferrer');
-                }
-            }, 2000);
-
-            overlayFrame.onload = () => {
-                clearTimeout(fallbackTimer);
-            };
-
+            const url = assetUrl(pdf);
+            overlayFrame.src = url;
             overlayFrame.onerror = () => {
-                clearTimeout(fallbackTimer);
                 closeOverlay();
-                window.open(assetUrl(pdf), '_blank', 'noopener,noreferrer');
+                window.open(url, '_blank', 'noopener,noreferrer');
             };
         }
 
@@ -400,33 +372,15 @@
                     });
                 }, { threshold: 0.2 });
 
-            function sameOrigin(u) {
-                try { return new URL(u, location.href).origin === location.origin; } catch (_) { return false; }
-            }
-
             function downloadPdf(url, name) {
-                if (sameOrigin(url)) {
-                    fetch(url)
-                        .then(res => {
-                            if (!res.ok) throw new Error('fetch');
-                            return res.blob();
-                        })
-                        .then(blob => {
-                            const a = document.createElement('a');
-                            const href = URL.createObjectURL(blob);
-                            a.href = href;
-                            a.download = name || 'file.pdf';
-                            document.body.appendChild(a);
-                            a.click();
-                            URL.revokeObjectURL(href);
-                            a.remove();
-                        })
-                        .catch(() => {
-                            window.open(url, '_blank', 'noopener,noreferrer');
-                        });
-                } else {
-                    window.open(url, '_blank', 'noopener,noreferrer');
-                }
+                const a = document.createElement('a');
+                a.href = assetUrl(url);
+                a.download = name || '';
+                a.target = '_blank';
+                a.rel = 'noopener,noreferrer';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
             }
 
             projects.forEach(project => {
@@ -489,12 +443,6 @@
                 block.appendChild(row);
 
                 block.addEventListener('click', () => {
-                    const supportsPdf = !!(navigator.mimeTypes && navigator.mimeTypes['application/pdf']);
-                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-                    if (!supportsPdf || isIOS) {
-                        window.open(assetUrl(project.pdf), '_blank', 'noopener,noreferrer');
-                        return;
-                    }
                     openOverlay(project.title, project.pdf);
                 });
 
