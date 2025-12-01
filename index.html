@@ -301,14 +301,7 @@
         const overlayFrame = previewOverlay.querySelector('iframe');
 
         function assetUrl(path) {
-            const host = location.hostname || '';
-            const isProd = host.endsWith('.github.io') || host.includes('sofie-wang.github.io');
-            if (isProd) {
-                const repo = 'sofie-wang/sofie-wang.github.io';
-                const branch = 'main';
-                if (/^https?:\/\//.test(path)) return path;
-                return `https://raw.githubusercontent.com/${repo}/${branch}/${path}`;
-            }
+            if (/^https?:\/\//.test(path)) return path;
             try { return new URL(path, location.origin).href; } catch (_) { return path; }
         }
 
@@ -339,7 +332,7 @@
             overlayFrame.onerror = () => {
                 clearTimeout(fallbackTimer);
                 closeOverlay();
-                window.open(pdf, '_blank', 'noopener,noreferrer');
+                window.open(assetUrl(pdf), '_blank', 'noopener,noreferrer');
             };
         }
 
@@ -399,6 +392,35 @@
                     });
                 }, { threshold: 0.2 });
 
+            function sameOrigin(u) {
+                try { return new URL(u, location.href).origin === location.origin; } catch (_) { return false; }
+            }
+
+            function downloadPdf(url, name) {
+                if (sameOrigin(url)) {
+                    fetch(url)
+                        .then(res => {
+                            if (!res.ok) throw new Error('fetch');
+                            return res.blob();
+                        })
+                        .then(blob => {
+                            const a = document.createElement('a');
+                            const href = URL.createObjectURL(blob);
+                            a.href = href;
+                            a.download = name || 'file.pdf';
+                            document.body.appendChild(a);
+                            a.click();
+                            URL.revokeObjectURL(href);
+                            a.remove();
+                        })
+                        .catch(() => {
+                            window.open(url, '_blank', 'noopener,noreferrer');
+                        });
+                } else {
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                }
+            }
+
             projects.forEach(project => {
                 const block = document.createElement('div');
                 block.className = 'portfolio-block';
@@ -440,7 +462,13 @@
                 download.download = '';
                 download.className = 'btn btn-primary';
                 download.innerHTML = 'Download <i class="fas fa-download"></i>';
-                download.addEventListener('click', (e) => e.stopPropagation());
+                download.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const url = assetUrl(project.pdf);
+                    const name = `${project.id}.pdf`;
+                    downloadPdf(url, name);
+                });
                 actions.appendChild(download);
 
 
@@ -453,11 +481,9 @@
                 block.appendChild(row);
 
                 block.addEventListener('click', () => {
-                    const host = location.hostname || '';
-                    const isProd = host.endsWith('.github.io') || host.includes('sofie-wang.github.io');
                     const supportsPdf = !!(navigator.mimeTypes && navigator.mimeTypes['application/pdf']);
                     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-                    if (isProd || !supportsPdf || isIOS) {
+                    if (!supportsPdf || isIOS) {
                         window.open(assetUrl(project.pdf), '_blank', 'noopener,noreferrer');
                         return;
                     }
