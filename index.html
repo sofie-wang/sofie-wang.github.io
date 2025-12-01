@@ -39,8 +39,8 @@
                         <span class="hero-chip">Learning Sciences</span>
                 </div>
                     <div class="hero-cta">
-                        <a href="portfolio-yuying-wang.pdf" class="btn btn-primary" download>Portfolio<i class="fas fa-arrow-right"></i></a>
-                        <a href="cv-yuying-wang.pdf" class="btn btn-ghost" download>Download CV<i class="fas fa-download"></i></a>
+                        <a href="https://raw.githubusercontent.com/sofie-wang/sofie-wang.github.io/main/portfolio-yuying-wang.pdf" class="btn btn-primary" download>Portfolio<i class="fas fa-arrow-right"></i></a>
+                        <a href="https://raw.githubusercontent.com/sofie-wang/sofie-wang.github.io/main/cv-yuying-wang.pdf" class="btn btn-ghost" download>Download CV<i class="fas fa-download"></i></a>
                 </div>
                 </div>
                 <div class="hero-panel" aria-label="Snapshot">
@@ -301,7 +301,15 @@
         const overlayFrame = previewOverlay.querySelector('iframe');
 
         function assetUrl(path) {
-            try { return /^https?:\/\//.test(path) ? path : new URL(path, document.baseURI).href; } catch (_) { return path; }
+            try {
+                if (/^https?:\/\//.test(path)) return path;
+                const host = location.hostname || '';
+                const isPages = /\.github\.io$/.test(host) || host.includes('sofie-wang.github.io');
+                if (isPages && /\.pdf(\?|#|$)/i.test(path)) {
+                    return `https://raw.githubusercontent.com/sofie-wang/sofie-wang.github.io/main/${path}`;
+                }
+                return new URL(path, document.baseURI).href;
+            } catch (_) { return path; }
         }
 
         function openOverlay(title, pdf) {
