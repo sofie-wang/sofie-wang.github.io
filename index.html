@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yuying Wang · UX Researcher & Designer</title>
-    <base href="/">
+    <title>Sophie Yuying Wang · Learning Engineering at CMU</title>
+    <meta name="description" content="Sophie Yuying Wang — Learning Engineering student at Carnegie Mellon University, exploring psychology, design, and meaningful learning experiences.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pVnXfTsgHxJ5r5cXKZ3D6fZ8uu8ZjJyzprn4lFE8Y1nAdOBoyG2n7NX1BqfF2hp6Digw1k3D6Z0fjQX+7G1wEg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="styles.css?v=20251128">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=20260909">
 </head>
 <body>
+    <a class="skip-link" href="#work">Skip to projects</a>
     <div class="page">
         <nav class="site-nav" role="navigation" aria-label="Primary">
             <div class="container">
                 <a class="brand" href="#home" aria-label="Home"><span class="brand-highlight">Sophie</span> Yuying Wang</a>
-            <div class="nav-links">
+            <button class="menu-toggle" aria-expanded="false" aria-controls="navigation">Menu <span aria-hidden="true">+</span></button>
+            <div class="nav-links" id="navigation">
                     <a class="nav-link active" href="#home">Home</a>
                     <a class="nav-link" href="#work">Projects</a>
                     <a class="nav-link" href="#education">Education</a>
@@ -30,25 +31,25 @@
         <header id="home" class="hero">
         <div class="container hero-grid">
                 <div class="hero-intro">
-                    <p class="eyebrow">UX Researcher & Designer</p>
-                    <h1 class="hero-title">Crafting <span class="hero-highlight">playful</span>, educational experiences.</h1>
-                    <p class="hero-body">I combine psychology and design to build learning experiences that support curiosity, understanding, and growth</p>
+                    <p class="eyebrow">Learning Engineering · Carnegie Mellon University</p>
+                    <h1 class="hero-title">A little curiosity.<br>A world of <span class="hero-highlight">learning.</span></h1>
+                    <p class="hero-body">I’m Sophie, a Learning Engineering student at Carnegie Mellon University. I bring psychology and design together to create thoughtful, playful ways to learn.</p>
                     <div class="hero-chips" aria-label="Focus areas">
                         <span class="hero-chip">UX Research</span>
                         <span class="hero-chip">Educational Design</span>
                         <span class="hero-chip">Learning Sciences</span>
                 </div>
                     <div class="hero-cta">
-                        <a href="portfolio-yuying-wang.pdf" class="btn btn-primary" download>Portfolio<i class="fas fa-arrow-right"></i></a>
-                        <a href="cv-yuying-wang.pdf" class="btn btn-ghost" download>Download CV<i class="fas fa-download"></i></a>
+                        <a href="portfolio-yuying-wang.pdf" class="btn btn-primary" download>Portfolio<span aria-hidden="true">↗</span></a>
+                        <a href="cv-yuying-wang.pdf" class="btn btn-ghost" download>Download CV<span aria-hidden="true">↓</span></a>
                 </div>
                 </div>
                 <div class="hero-panel" aria-label="Snapshot">
-                    <p class="panel-title">About Me</p>
+                    <p class="panel-title">The next chapter / CMU</p>
                     <div class="panel-stats">
                         <div class="stat">
-                            <span class="stat-label">Location</span>
-                            <span class="stat-value">London, UK</span>
+                            <span class="stat-label">Focus</span>
+                            <span class="stat-value">Psychology × Design × Learning</span>
                         </div>
                         <div class="stat">
                             <span class="stat-label">Email</span>
@@ -56,11 +57,11 @@
                         </div>
                         <div class="stat">
                             <span class="stat-label">School</span>
-                            <span class="stat-value">University College London</span>
+                            <span class="stat-value">Carnegie Mellon University</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-label">Degree</span>
-                            <span class="stat-value">BSc Psychology with Education</span>
+                            <span class="stat-label">Program</span>
+                            <span class="stat-value">Learning Engineering · Current student</span>
                 </div>
             </div>
             </div>
@@ -72,7 +73,7 @@
     <div class="container">
                     <div class="section-header">
                         <div>
-                            <p class="eyebrow">Featured</p>
+                            <p class="eyebrow">01 / Selected work</p>
                             <h2 class="section-title">Selected Projects</h2>
                 </div>
                     </div>
@@ -84,11 +85,16 @@
                 <div class="container">
                     <div class="section-header">
                         <div>
-                            <p class="eyebrow">Education</p>
-                            <h2 class="section-title">Academic Path</h2>
+                            <p class="eyebrow">02 / Education</p>
+                            <h2 class="section-title">A foundation in learning.</h2>
                         </div>
                     </div>
                     <div class="timeline">
+                        <article class="timeline-card current-education">
+                            <div class="timeline-meta"><span>Current study</span><span class="current-label">Present</span></div>
+                            <h3 class="timeline-title">Carnegie Mellon University</h3>
+                            <p class="timeline-text">Learning Engineering</p>
+                        </article>
                         <article class="timeline-card">
                             <div class="timeline-meta">
                                 <span>London, UK</span>
@@ -105,8 +111,8 @@
                 <div class="container">
                     <div class="section-header">
                         <div>
-                            <p class="eyebrow">Experience</p>
-                            <h2 class="section-title">Research & Work Experience</h2>
+                            <p class="eyebrow">03 / Experience</p>
+                            <h2 class="section-title">Research meets practice.</h2>
                         </div>
                     </div>
                     <div class="timeline">
@@ -156,7 +162,7 @@
                 <div class="container">
                     <div class="section-header">
                         <div>
-                            <p class="eyebrow">Leadership</p>
+                            <p class="eyebrow">04 / Leadership</p>
                             <h2 class="section-title">Leadership</h2>
                         </div>
                     </div>
@@ -182,7 +188,7 @@
                 <div class="container">
                     <div class="section-header">
                         <div>
-                            <p class="eyebrow">Toolkit</p>
+                            <p class="eyebrow">05 / Toolkit</p>
                             <h2 class="section-title">Skills & Credentials</h2>
                         </div>
                     </div>
@@ -228,7 +234,7 @@
 
     <footer class="footer">
         <div class="container">
-                © <span id="year"></span> Yuying Wang
+                <a class="footer-email" href="mailto:sophiewang1012@outlook.com">Let’s connect <span aria-hidden="true">↗</span></a><p>© <span id="year"></span> Sophie Yuying Wang</p>
         </div>
     </footer>
     </div>
@@ -237,93 +243,46 @@
         // Year stamp
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // Scroll spy & smooth scroll
         const navLinks = document.querySelectorAll('.nav-link');
-
+        const menu = document.querySelector('.menu-toggle');
+        const navigation = document.querySelector('.nav-links');
+        function closeMenu() { menu.setAttribute('aria-expanded', 'false'); navigation.classList.remove('is-open'); }
+        menu.addEventListener('click', () => {
+            const open = menu.getAttribute('aria-expanded') !== 'true';
+            menu.setAttribute('aria-expanded', String(open)); navigation.classList.toggle('is-open', open);
+        });
+        navLinks.forEach(link => link.addEventListener('click', closeMenu));
+        document.addEventListener('keydown', event => { if (event.key === 'Escape') { closeMenu(); } });
         function setActiveLink() {
-            const sections = document.querySelectorAll('header[id], section');
-            const scrollPos = window.pageYOffset || document.documentElement.scrollTop;
-
-            sections.forEach(section => {
-                const top = section.offsetTop - 120;
-                const bottom = top + section.offsetHeight;
-                if (scrollPos >= top && scrollPos < bottom) {
-                    navLinks.forEach(link => link.classList.remove('active'));
-                    const target = document.querySelector(`.nav-link[href="#${section.id}"]`);
-                    if (target) target.classList.add('active');
-                }
+            const sections = [...document.querySelectorAll('header[id], main section[id]')];
+            const current = sections.filter(section => section.getBoundingClientRect().top <= 150).pop() || sections[0];
+            navLinks.forEach(link => {
+                const active = link.hash === '#' + current.id;
+                link.classList.toggle('active', active);
+                if (active) link.setAttribute('aria-current', 'location'); else link.removeAttribute('aria-current');
             });
         }
-
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const id = link.getAttribute('href').replace('#', '');
-                const target = document.getElementById(id);
-                if (target) {
-                    window.scrollTo({ top: target.offsetTop - 70, behavior: 'smooth' });
-                }
-            });
-        });
-
-        window.addEventListener('scroll', setActiveLink);
-        window.addEventListener('resize', setActiveLink);
-
-        // Overlay for immersive previews
-        const previewOverlay = document.createElement('div');
+        window.addEventListener('scroll', setActiveLink, { passive: true });
+        const previewOverlay = document.createElement('dialog');
         previewOverlay.className = 'portfolio-overlay';
-        previewOverlay.innerHTML = `
-            <div class="overlay-panel" role="dialog" aria-modal="true">
-                <div class="overlay-header">
-                    <div class="overlay-title"></div>
-                    <button class="overlay-close" aria-label="Close preview">&times;</button>
-                </div>
-                <div class="overlay-frame">
-                    <iframe title="Project preview" loading="lazy"></iframe>
-                </div>
-            </div>
-        `;
+        previewOverlay.setAttribute('aria-labelledby', 'preview-title');
+        previewOverlay.innerHTML = `<div class="overlay-header"><h2 id="preview-title"></h2><button class="overlay-close" aria-label="Close preview">×</button></div><p class="preview-help">If the preview does not appear, <a class="pdf-direct" target="_blank" rel="noopener">open the PDF in a new tab</a>.</p><iframe title="Project PDF preview"></iframe>`;
         document.body.appendChild(previewOverlay);
-        const overlayTitle = previewOverlay.querySelector('.overlay-title');
-        const overlayClose = previewOverlay.querySelector('.overlay-close');
-        const overlayFrame = previewOverlay.querySelector('iframe');
-
-        function assetUrl(path) {
-            try { return /^https?:\/\//.test(path) ? path : new URL(path, document.baseURI).href; } catch (_) { return path; }
-        }
-
-        function viewerUrl(pdf) {
-            const file = encodeURIComponent(assetUrl(pdf));
-            return `https://mozilla.github.io/pdf.js/web/viewer.html?file=${file}#zoom=page-width`;
-        }
-
+        function assetUrl(path) { return new URL(path, document.baseURI).href; }
         function openOverlay(title, pdf) {
-            overlayTitle.textContent = title;
-            previewOverlay.classList.add('open');
-            document.body.classList.add('modal-open');
-            const url = viewerUrl(pdf);
-            overlayFrame.src = url;
-            overlayFrame.onerror = () => {
-                closeOverlay();
-                window.open(url, '_blank', 'noopener,noreferrer');
-            };
+            previewOverlay.querySelector('h2').textContent = title;
+            previewOverlay.querySelector('iframe').src = assetUrl(pdf);
+            previewOverlay.querySelector('.pdf-direct').href = assetUrl(pdf);
+            previewOverlay.showModal(); document.body.classList.add('modal-open');
         }
-
-        function closeOverlay() {
-            previewOverlay.classList.remove('open');
-            document.body.classList.remove('modal-open');
-            overlayFrame.src = '';
-        }
-
-        overlayClose.addEventListener('click', closeOverlay);
-        previewOverlay.addEventListener('click', (e) => {
-            if (e.target === previewOverlay) closeOverlay();
-        });
+        previewOverlay.querySelector('button').addEventListener('click', () => previewOverlay.close());
+        previewOverlay.addEventListener('close', () => { document.body.classList.remove('modal-open'); previewOverlay.querySelector('iframe').removeAttribute('src'); });
+        previewOverlay.addEventListener('click', event => { if (event.target === previewOverlay) { const r = previewOverlay.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) previewOverlay.close(); } });
 
         // Featured work cards sourced from /portfolios assets
         function loadPortfolios() {
             function abs(path) {
-                try { return new URL(path, location.origin).href; } catch (_) { return path; }
+                try { return new URL(path, document.baseURI).href; } catch (_) { return path; }
             }
             const projects = [
                 {
@@ -353,18 +312,6 @@
             ];
 
                 const grid = document.getElementById('portfolioGrid');
-                const io = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const img = entry.target.querySelector('img[data-src]');
-                            if (img && !img.dataset.loaded) {
-                                img.dataset.loaded = 'true';
-                                img.src = img.dataset.src;
-                            }
-                        }
-                    });
-                }, { threshold: 0.2 });
-
             function downloadPdf(url, name) {
                 const a = document.createElement('a');
                 a.href = assetUrl(url);
@@ -387,9 +334,10 @@
                 media.className = 'portfolio-media';
                     const img = document.createElement('img');
                 img.alt = `${project.title} preview`;
-                img.dataset.src = abs(project.image);
+                img.src = abs(project.image);
+                img.decoding = 'async';
                     img.loading = 'lazy';
-                    img.onerror = () => { img.style.display = 'none'; };
+
                 media.appendChild(img);
 
                 const content = document.createElement('div');
@@ -402,7 +350,7 @@
                     content.appendChild(meta);
                 }
 
-                    const title = document.createElement('div');
+                    const title = document.createElement('h3');
                     title.className = 'portfolio-title';
                 title.textContent = project.title;
 
@@ -416,7 +364,7 @@
                 download.href = assetUrl(project.pdf);
                 download.download = '';
                 download.className = 'btn btn-primary';
-                download.innerHTML = 'Download <i class="fas fa-download"></i>';
+                download.innerHTML = 'Download <span aria-hidden="true">↓</span>';
                 download.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -424,6 +372,12 @@
                     const name = `${project.id}.pdf`;
                     downloadPdf(url, name);
                 });
+                const preview = document.createElement('button');
+                preview.type = 'button'; preview.className = 'btn btn-primary'; preview.textContent = 'View project ↗';
+                preview.setAttribute('aria-label', 'View ' + project.title);
+                preview.addEventListener('click', () => openOverlay(project.title, project.pdf));
+                actions.appendChild(preview);
+                download.className = 'btn btn-text';
                 actions.appendChild(download);
 
 
@@ -435,12 +389,10 @@
                 row.appendChild(content);
                 block.appendChild(row);
 
-                block.addEventListener('click', () => {
-                    openOverlay(project.title, project.pdf);
-                });
+
 
                 grid.appendChild(block);
-                io.observe(row);
+
             });
         }
 
