@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=DM+Serif+Display:ital@0;1&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=20261024b">
+    <link rel="stylesheet" href="styles.css?v=20261024c">
 </head>
 <body>
     <a class="skip-link" href="#work">Skip to projects</a>
@@ -34,11 +34,11 @@
                     <p class="hero-body">I explore how we learn.<br>And make it a little more <em>playful.</em></p>
                     <p class="hero-school">Learning Engineering <span aria-hidden="true">/</span> Carnegie Mellon University</p>
                 </div>
-                <div class="playground" aria-label="Interactive line drawing">
+                <div class="playground" aria-label="Interactive reading illustration">
                     <span class="play-spark spark-one" aria-hidden="true">✳</span>
                     <span class="play-spark spark-two" aria-hidden="true">✧</span>
                     <span class="play-orbit" aria-hidden="true"></span>
-                    <button type="button" class="line-friend" aria-label="Play with the line drawing: drag, click, or use arrow keys" aria-describedby="play-hint"><img src="line-friend.png" alt="A minimal lavender line drawing of a curious little figure" width="440" height="440" fetchpriority="high" draggable="false"></button>
+                    <button type="button" class="line-friend" aria-label="Play with the line drawing: drag, click, or use arrow keys" aria-describedby="play-hint"><img src="reading-friend.png" alt="A delicate lavender line illustration of a young woman reading a book" width="440" height="440" fetchpriority="high" draggable="false"></button>
                     <span class="handwritten play-note" aria-hidden="true">stay curious.</span>
                     <p class="play-hint" id="play-hint">Move me a little.</p>
                     <button class="reset-play" type="button" aria-label="Return the drawing to its starting position">Reset ↺</button>
@@ -316,8 +316,11 @@
                 const row = document.createElement('article');
                 row.className = 'portfolio-row';
 
-                const media = document.createElement('div');
+                const media = document.createElement('button');
+                media.type = 'button';
                 media.className = 'portfolio-media';
+                media.setAttribute('aria-label', 'Open ' + project.title + ' project preview');
+                media.addEventListener('click', () => openOverlay(project.title, project.pdf));
                     const img = document.createElement('img');
                 img.alt = `${project.title} preview`;
                 img.src = abs(project.image);
@@ -325,6 +328,11 @@
                     img.loading = 'lazy';
 
                 media.appendChild(img);
+                const peek = document.createElement('span');
+                peek.className = 'project-peek';
+                peek.setAttribute('aria-hidden', 'true');
+                peek.textContent = 'Explore project ↗';
+                media.appendChild(peek);
 
                 const content = document.createElement('div');
                 content.className = 'portfolio-content';
@@ -396,6 +404,6 @@
             loadPortfolios();
         });
     </script>
-    <script src="interactions.js?v=20261024b" defer></script>
+    <script src="interactions.js?v=20261024c" defer></script>
 </body>
 </html>
