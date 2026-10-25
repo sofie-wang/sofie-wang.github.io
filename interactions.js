@@ -1,7 +1,7 @@
 (() => {
   const hero = document.querySelector('.hero');
   const stage = document.querySelector('.playground');
-  const friend = document.querySelector('.felt-friend');
+  const friend = document.querySelector('.line-friend');
   const reset = document.querySelector('.reset-play');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
@@ -30,17 +30,17 @@
     stage.style.setProperty('--tilt-y', '0deg');
   }
   function celebrate() {
-    if (reduced.matches) { friend.style.setProperty('--turn', friend.style.getPropertyValue('--turn') === '9deg' ? '-9deg' : '9deg'); return; }
+    if (reduced.matches) { friend.style.setProperty('--turn', friend.style.getPropertyValue('--turn') === '3deg' ? '-3deg' : '3deg'); return; }
     friend.classList.remove('is-spinning');
     void friend.offsetWidth;
     friend.classList.add('is-spinning');
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 3; i++) {
       const mark = document.createElement('span');
       mark.className = 'play-burst'; mark.setAttribute('aria-hidden', 'true');
       mark.textContent = i % 2 ? '✧' : '✳';
-      const angle = i * Math.PI / 3;
-      mark.style.setProperty('--burst-x', Math.cos(angle) * 155 + 'px');
-      mark.style.setProperty('--burst-y', Math.sin(angle) * 140 + 'px');
+      const angle = i * Math.PI * 2 / 3;
+      mark.style.setProperty('--burst-x', Math.cos(angle) * 75 + 'px');
+      mark.style.setProperty('--burst-y', Math.sin(angle) * 65 + 'px');
       stage.append(mark); setTimeout(() => mark.remove(), 800);
     }
   }
@@ -81,10 +81,10 @@
     const rect = stage.getBoundingClientRect();
     const dx = clamp((latest.x - rect.left - rect.width / 2) / rect.width, -1, 1);
     const dy = clamp((latest.y - rect.top - rect.height / 2) / rect.height, -1, 1);
-    stage.style.setProperty('--tilt-x', -dy * 14 + 'deg');
-    stage.style.setProperty('--tilt-y', dx * 18 + 'deg');
+    stage.style.setProperty('--tilt-x', -dy * 5 + 'deg');
+    stage.style.setProperty('--tilt-y', dx * 6 + 'deg');
     stage.querySelector('.spark-one').style.transform = `translate(${dx * -14}px,${dy * -14}px) rotate(-12deg)`;
-    stage.querySelector('.spark-two').style.transform = `translate(${dx * 18}px,${dy * 18}px)`;
+    stage.querySelector('.spark-two').style.transform = `translate(${dx * 6}px,${dy * 18}px)`;
     halo.style.transform = `translate(${latest.x - 12}px,${latest.y - 12}px)`;
   }
   hero.addEventListener('pointermove', event => {
