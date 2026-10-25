@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=DM+Serif+Display:ital@0;1&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=20261024c">
+    <link rel="stylesheet" href="styles.css?v=20261025">
 </head>
 <body>
     <a class="skip-link" href="#work">Skip to projects</a>
@@ -34,14 +34,24 @@
                     <p class="hero-body">I explore how we learn.<br>And make it a little more <em>playful.</em></p>
                     <p class="hero-school">Learning Engineering <span aria-hidden="true">/</span> Carnegie Mellon University</p>
                 </div>
-                <div class="playground" aria-label="Interactive reading illustration">
-                    <span class="play-spark spark-one" aria-hidden="true">✳</span>
-                    <span class="play-spark spark-two" aria-hidden="true">✧</span>
-                    <span class="play-orbit" aria-hidden="true"></span>
-                    <button type="button" class="line-friend" aria-label="Play with the line drawing: drag, click, or use arrow keys" aria-describedby="play-hint"><img src="reading-friend.png" alt="A delicate lavender line illustration of a young woman reading a book" width="440" height="440" fetchpriority="high" draggable="false"></button>
-                    <span class="handwritten play-note" aria-hidden="true">stay curious.</span>
-                    <p class="play-hint" id="play-hint">Move me a little.</p>
-                    <button class="reset-play" type="button" aria-label="Return the drawing to its starting position">Reset ↺</button>
+                <div class="portrait-stage" aria-label="Interactive printed portrait of Sofie">
+                    <span class="portrait-edition" aria-hidden="true">PORTRAIT STUDY / 01</span>
+                    <div class="portrait-outline" aria-hidden="true"></div>
+                    <button type="button" class="portrait-card" aria-label="Sofie’s portrait: drag to move, click to change ink, or use arrow keys" aria-describedby="portrait-hint">
+                        <img src="sofie-print-portrait.png" alt="An original lavender screenprint portrait of Sofie, based on her photograph" width="800" height="1000" fetchpriority="high" draggable="false">
+                        <span class="portrait-light" aria-hidden="true"></span>
+                    </button>
+                    <span class="portrait-note" aria-hidden="true">a work in progress.</span>
+                    <div class="portrait-tools">
+                        <p id="portrait-hint">Drag to move · tap to change ink</p>
+                        <button type="button" class="portrait-reset" aria-label="Reset portrait position and ink">Reset ↺</button>
+                    </div>
+                    <div class="ink-selector" role="group" aria-label="Portrait ink">
+                        <button type="button" data-ink="lavender" class="ink-swatch" aria-label="Lavender ink" aria-pressed="true"><span></span></button>
+                        <button type="button" data-ink="graphite" class="ink-swatch" aria-label="Graphite ink" aria-pressed="false"><span></span></button>
+                        <button type="button" data-ink="violet" class="ink-swatch" aria-label="Violet ink" aria-pressed="false"><span></span></button>
+                        <span class="ink-label" aria-live="polite">Lavender / 01</span>
+                    </div>
                 </div>
             </div>
             <div class="container hero-bottom"><a class="scroll-cue" href="#work">Scroll to explore <span aria-hidden="true">↓</span></a><span class="hero-signoff">Psychology, design & a little imagination.</span></div>
@@ -404,6 +414,6 @@
             loadPortfolios();
         });
     </script>
-    <script src="interactions.js?v=20261024c" defer></script>
+    <script src="interactions.js?v=20261025" defer></script>
 </body>
 </html>

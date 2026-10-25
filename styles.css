@@ -118,3 +118,113 @@ body{background:var(--paper)}.site-nav{background:rgba(253,251,255,.94);border-b
   .portfolio-media:focus-visible img, .line-friend:hover img { transform: none; }
   .portfolio-media img { will-change: auto; }
 }
+/* Printed portrait: a tactile, interactive art object. */
+.portrait-stage {
+  position: relative;
+  height: 480px;
+  isolation: isolate;
+  perspective: 1000px;
+  --portrait-x: 0px;
+  --portrait-y: 0px;
+  --rotate-x: 0deg;
+  --rotate-y: 0deg;
+  --image-x: 0px;
+  --image-y: 0px;
+  --rest-angle: -3deg;
+  --light-x: 50%;
+  --light-y: 50%;
+}
+.portrait-edition {
+  position: absolute;
+  left: 40px;
+  top: 8px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #9a8ba6;
+}
+.portrait-outline {
+  position: absolute;
+  inset: 34px 66px 74px 56px;
+  border: 1px solid #d8c9e4;
+  transform: translate(calc(var(--portrait-x) * -.22),calc(var(--portrait-y) * -.22)) rotate(5deg);
+  pointer-events: none;
+  z-index: -1;
+}
+.portrait-card {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  width: min(300px,70%);
+  aspect-ratio: 4 / 5;
+  border: 0;
+  border-radius: 1px;
+  padding: 0;
+  background: #f1e9f6;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  transform: translate(calc(-50% + var(--portrait-x)),calc(-50% + var(--portrait-y))) rotate(var(--rest-angle)) rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
+  box-shadow: 0 10px 28px #5d466b14;
+  will-change: transform;
+}
+.portrait-card:active { cursor: grabbing; }
+.portrait-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  transform: translate(var(--image-x),var(--image-y)) scale(1.065);
+  transition: filter .5s ease;
+}
+.portrait-stage[data-ink="graphite"] .portrait-card img { filter: grayscale(1) contrast(1.08); }
+.portrait-stage[data-ink="violet"] .portrait-card img { filter: hue-rotate(-17deg) saturate(.85) contrast(1.13); }
+.portrait-light {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--light-x) var(--light-y),#ffffff40,transparent 65%);
+  opacity: 0;
+  transition: opacity .3s;
+  mix-blend-mode: screen;
+}
+.portrait-stage.is-active .portrait-light { opacity: 1; }
+.portrait-note { position: absolute; right: 2px; bottom: 58px; font: 22px/1 'Caveat',cursive; color: #9d86ae; transform: rotate(-6deg); pointer-events: none; }
+.portrait-tools { position: absolute; bottom: 25px; left: 0; right: 0; display: flex; align-items: center; justify-content: center; gap: 20px; }
+.portrait-tools p { font-size: 11px; color: #8d8098; letter-spacing: .2px; }
+.portrait-reset { padding: 6px; min-height: 44px; border: 0; background: none; color: #8d8098; font-size: 11px; }
+.ink-selector { position: absolute; left: 50%; bottom: -12px; transform: translateX(-50%); display: flex; align-items: center; gap: 2px; white-space: nowrap; }
+.ink-swatch { display: grid; place-items: center; width: 34px; height: 34px; border: 0; background: none; border-radius: 50%; }
+.ink-swatch span { width: 11px; height: 11px; border-radius: 50%; background: #bfa5ce; outline: 1px solid transparent; outline-offset: 4px; }
+.ink-swatch[data-ink="graphite"] span { background: #77717e; }
+.ink-swatch[data-ink="violet"] span { background: #89679e; }
+.ink-swatch[aria-pressed="true"] span { outline-color: #bcabc9; }
+.ink-label { font-size: 10px; color: #94859f; letter-spacing: .6px; min-width: 100px; margin-left: 10px; }
+@media(hover:hover) and (pointer:fine) {
+  .portfolio-media:hover img { transform: translate(var(--peek-x,0px),var(--peek-y,0px)) scale(1.09); }
+  .portfolio-media:hover .project-peek { transform: translate(var(--label-x,0px),var(--label-y,0px)); }
+}
+@media(max-width:850px) {
+  .portrait-stage { height: 400px; }
+  .portrait-card { width: min(250px,78%); }
+  .portrait-outline { inset: 30px 20px 76px 26px; }
+  .portrait-edition { left: 18px; }
+  .portrait-note { bottom: 64px; right: -8px; font-size: 20px; }
+  .portrait-tools { gap: 8px; }
+}
+@media(max-width:600px) {
+  .portrait-stage { height: 340px; width: min(360px,100%); margin: 18px auto 0; }
+  .portrait-card { width: 200px; top: 43%; }
+  .portrait-outline { inset: 14px 66px 80px 56px; }
+  .portrait-edition { top: 0; left: 22px; font-size: 9px; }
+  .portrait-note { bottom: 66px; right: 2px; }
+  .portrait-tools { bottom: 24px; }
+  .ink-selector { bottom: -9px; }
+  .hero { min-height: calc(100svh - 76px); }
+}
+@media(prefers-reduced-motion:reduce) {
+  .portrait-card { will-change: auto; }
+  .portrait-light { display: none; }
+  .portrait-card img { transform: none; }
+  .portfolio-media:hover img { transform: none; }
+}

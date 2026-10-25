@@ -1,104 +1,134 @@
-(() => {
+function initializeInteractions() {
   const hero = document.querySelector('.hero');
-  const stage = document.querySelector('.playground');
-  const friend = document.querySelector('.line-friend');
-  const reset = document.querySelector('.reset-play');
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const stage = document.querySelector('.portrait-stage');
+  const card = document.querySelector('.portrait-card');
+  if (!hero || !stage || !card) return;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const fine = matchMedia('(hover:hover) and (pointer:fine)');
+  const inks = ['lavender', 'graphite', 'violet'];
+  const swatches = [...document.querySelectorAll('.ink-swatch')];
+  const inkLabel = document.querySelector('.ink-label');
   const progress = document.createElement('div');
   progress.className = 'reading-progress';
   progress.setAttribute('aria-hidden', 'true');
   document.body.append(progress);
-  const halo = document.createElement('div');
-  halo.className = 'cursor-halo';
-  halo.setAttribute('aria-hidden', 'true');
-  document.body.append(halo);
-  let x = 0, y = 0, drag = null, moved = false, tick = false, latest = null;
-  function clamp(value, min, max) { return Math.min(max, Math.max(min, value)); }
-  function bounds() {
-    const maxX = Math.max(0, (stage.clientWidth - friend.offsetWidth) / 2 - 12);
-    const maxY = Math.min(90, stage.clientHeight * 0.24);
-    x = clamp(x, -maxX, maxX); y = clamp(y, -maxY, maxY);
+  let ink = 0, x = 0, y = 0, drag = null, dragged = false;
+  let frame = 0, angleX = 0, angleY = 0, targetX = 0, targetY = 0;
+  const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+  function setInk(index) {
+    ink = index;
+    stage.dataset.ink = inks[index];
+    stage.style.setProperty('--rest-angle', [-3, 2, -1][index] + 'deg');
+    swatches.forEach((button, i) => button.setAttribute('aria-pressed', String(i === index)));
+    inkLabel.textContent = inks[index][0].toUpperCase() + inks[index].slice(1) + ' / 0' + (index + 1);
+  }
+  function boundPosition() {
+    const limitX = Math.max(8, (stage.clientWidth - card.offsetWidth) / 2 - 10);
+    const limitY = Math.min(70, stage.clientHeight * .16);
+    x = clamp(x, -limitX, limitX);
+    y = clamp(y, -limitY, limitY);
   }
   function place() {
-    friend.style.setProperty('--drag-x', x + 'px');
-    friend.style.setProperty('--drag-y', y + 'px');
+    stage.style.setProperty('--portrait-x', x + 'px');
+    stage.style.setProperty('--portrait-y', y + 'px');
   }
-  function resetFriend() {
-    x = y = 0; drag = null; place();
-    stage.style.setProperty('--tilt-x', '0deg');
-    stage.style.setProperty('--tilt-y', '0deg');
+  function animate() {
+    frame = 0;
+    if (reduced.matches) return;
+    angleX += (targetX - angleX) * .12;
+    angleY += (targetY - angleY) * .12;
+    stage.style.setProperty('--rotate-x', angleX + 'deg');
+    stage.style.setProperty('--rotate-y', angleY + 'deg');
+    stage.style.setProperty('--image-x', angleY * -.55 + 'px');
+    stage.style.setProperty('--image-y', angleX * .5 + 'px');
+    if (Math.abs(targetX - angleX) + Math.abs(targetY - angleY) > .02) frame = requestAnimationFrame(animate);
   }
-  function celebrate() {
-    if (reduced.matches) { friend.style.setProperty('--turn', friend.style.getPropertyValue('--turn') === '3deg' ? '-3deg' : '3deg'); return; }
-    friend.classList.remove('is-spinning');
-    void friend.offsetWidth;
-    friend.classList.add('is-spinning');
-    for (let i = 0; i < 3; i++) {
-      const mark = document.createElement('span');
-      mark.className = 'play-burst'; mark.setAttribute('aria-hidden', 'true');
-      mark.textContent = i % 2 ? '✧' : '✳';
-      const angle = i * Math.PI * 2 / 3;
-      mark.style.setProperty('--burst-x', Math.cos(angle) * 75 + 'px');
-      mark.style.setProperty('--burst-y', Math.sin(angle) * 65 + 'px');
-      stage.append(mark); setTimeout(() => mark.remove(), 800);
-    }
-  }
-  friend.addEventListener('animationend', () => friend.classList.remove('is-spinning'));
-  friend.addEventListener('pointerdown', event => {
-    if (event.button !== 0) return;
-    friend.focus({ preventScroll: true });
-    drag = { id: event.pointerId, startX: event.clientX, startY: event.clientY, x, y };
-    moved = false; friend.setPointerCapture(event.pointerId);
+  function startAnimation() { if (!frame && !reduced.matches) frame = requestAnimationFrame(animate); }
+  function rest() { targetX = targetY = 0; stage.classList.remove('is-active'); startAnimation(); }
+  hero.addEventListener('pointermove', event => {
+    if (!fine.matches || reduced.matches || drag) return;
+    const r = stage.getBoundingClientRect();
+    const px = clamp((event.clientX - r.left) / r.width, 0, 1);
+    const py = clamp((event.clientY - r.top) / r.height, 0, 1);
+    targetY = (px - .5) * 24; targetX = (py - .5) * -18;
+    stage.style.setProperty('--light-x', px * 100 + '%');
+    stage.style.setProperty('--light-y', py * 100 + '%');
+    stage.classList.add('is-active'); startAnimation();
   });
-  friend.addEventListener('pointermove', event => {
+  hero.addEventListener('pointerleave', rest);
+  card.addEventListener('pointerdown', event => {
+    if (event.button !== 0) return;
+    card.focus({ preventScroll: true });
+    dragged = false;
+    drag = { id: event.pointerId, startX: event.clientX, startY: event.clientY, x, y };
+    card.setPointerCapture(event.pointerId);
+  });
+  card.addEventListener('pointermove', event => {
     if (!drag || drag.id !== event.pointerId) return;
     const dx = event.clientX - drag.startX, dy = event.clientY - drag.startY;
-    if (Math.hypot(dx, dy) > 5) moved = true;
-    x = drag.x + dx; y = drag.y + dy; bounds(); place();
+    if (Math.hypot(dx, dy) > 5) dragged = true;
+    x = drag.x + dx; y = drag.y + dy; boundPosition(); place();
+    if (!reduced.matches) { targetY = clamp(dx * .15,-14,14); targetX = clamp(-dy * .12,-10,10); startAnimation(); }
   });
-  function endDrag(event) {
+  function release(event) {
     if (!drag || drag.id !== event.pointerId) return;
     drag = null;
-    if (friend.hasPointerCapture(event.pointerId)) friend.releasePointerCapture(event.pointerId);
+    if (card.hasPointerCapture(event.pointerId)) card.releasePointerCapture(event.pointerId);
+    rest();
   }
-  friend.addEventListener('pointerup', endDrag);
-  friend.addEventListener('pointercancel', event => { moved = true; endDrag(event); });
-  friend.addEventListener('lostpointercapture', () => { drag = null; });
-  friend.addEventListener('click', () => { if (!moved) celebrate(); moved = false; });
-  friend.addEventListener('keydown', event => {
-    const directions = { ArrowLeft: [-16, 0], ArrowRight: [16, 0], ArrowUp: [0, -16], ArrowDown: [0, 16] };
+  card.addEventListener('pointerup', release);
+  card.addEventListener('pointercancel', event => { dragged = true; release(event); });
+  card.addEventListener('lostpointercapture', () => { drag = null; });
+  card.addEventListener('click', () => { if (!dragged) setInk((ink + 1) % inks.length); dragged = false; });
+  swatches.forEach((button, i) => button.addEventListener('click', () => setInk(i)));
+  function reset() { x = y = 0; drag = null; place(); setInk(0); rest(); }
+  document.querySelector('.portrait-reset').addEventListener('click', reset);
+  card.addEventListener('keydown', event => {
+    const directions = { ArrowLeft: [-16,0], ArrowRight: [16,0], ArrowUp: [0,-16], ArrowDown: [0,16] };
     if (directions[event.key]) {
-      event.preventDefault(); const [dx, dy] = directions[event.key];
-      x += dx; y += dy; bounds(); place();
-    } else if (event.key === 'Escape' || event.key === 'Home') { event.preventDefault(); resetFriend(); }
-    if (event.key === 'Enter' || event.key === ' ') moved = false;
+      event.preventDefault(); const [dx,dy] = directions[event.key];
+      x += dx; y += dy; boundPosition(); place();
+    } else if (event.key === 'Home' || event.key === 'Escape') { event.preventDefault(); reset(); }
+    if (event.key === 'Enter' || event.key === ' ') dragged = false;
   });
-  reset.addEventListener('click', resetFriend);
-  function updatePointer() {
-    tick = false;
-    if (!latest || !finePointer.matches || reduced.matches || drag) return;
-    const rect = stage.getBoundingClientRect();
-    const dx = clamp((latest.x - rect.left - rect.width / 2) / rect.width, -1, 1);
-    const dy = clamp((latest.y - rect.top - rect.height / 2) / rect.height, -1, 1);
-    stage.style.setProperty('--tilt-x', -dy * 5 + 'deg');
-    stage.style.setProperty('--tilt-y', dx * 6 + 'deg');
-    stage.querySelector('.spark-one').style.transform = `translate(${dx * -14}px,${dy * -14}px) rotate(-12deg)`;
-    stage.querySelector('.spark-two').style.transform = `translate(${dx * 6}px,${dy * 18}px)`;
-    halo.style.transform = `translate(${latest.x - 12}px,${latest.y - 12}px)`;
-  }
-  hero.addEventListener('pointermove', event => {
-    latest = { x: event.clientX, y: event.clientY };
-    if (!tick) { tick = true; requestAnimationFrame(updatePointer); }
+  document.querySelectorAll('.portfolio-media').forEach(media => {
+    let pending = 0, px = 0, py = 0;
+    media.addEventListener('pointermove', event => {
+      if (!fine.matches || reduced.matches) return;
+      const r = media.getBoundingClientRect();
+      px = clamp((event.clientX-r.left)/r.width-.5,-.5,.5);
+      py = clamp((event.clientY-r.top)/r.height-.5,-.5,.5);
+      if (!pending) pending = requestAnimationFrame(() => {
+        pending = 0;
+        media.style.setProperty('--peek-x', px * -16 + 'px');
+        media.style.setProperty('--peek-y', py * -16 + 'px');
+        media.style.setProperty('--label-x', px * 12 + 'px');
+        media.style.setProperty('--label-y', py * 12 + 'px');
+      });
+    });
+    media.addEventListener('pointerleave', () => {
+      if (pending) { cancelAnimationFrame(pending); pending = 0; }
+      ['--peek-x','--peek-y','--label-x','--label-y'].forEach(key => media.style.setProperty(key,'0px'));
+    });
   });
-  hero.addEventListener('pointerenter', () => { if (finePointer.matches && !reduced.matches) halo.classList.add('visible'); });
-  hero.addEventListener('pointerleave', () => { halo.classList.remove('visible'); stage.style.setProperty('--tilt-x', '0deg'); stage.style.setProperty('--tilt-y', '0deg'); });
   function updateProgress() {
     const length = document.documentElement.scrollHeight - innerHeight;
-    progress.style.transform = `scaleX(${length > 0 ? clamp(scrollY / length, 0, 1) : 0})`;
+    progress.style.transform = `scaleX(${length > 0 ? clamp(scrollY/length,0,1) : 0})`;
   }
   window.addEventListener('scroll', updateProgress, { passive: true });
-  window.addEventListener('resize', () => { bounds(); place(); updateProgress(); });
-  reduced.addEventListener('change', () => { resetFriend(); halo.classList.remove('visible'); });
-  updateProgress();
-})();
+  window.addEventListener('resize', () => { boundPosition(); place(); updateProgress(); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden && frame) { cancelAnimationFrame(frame); frame = 0; } });
+  reduced.addEventListener('change', () => {
+    if (frame) { cancelAnimationFrame(frame); frame = 0; }
+    angleX = angleY = targetX = targetY = 0;
+    ['--rotate-x','--rotate-y'].forEach(key => stage.style.setProperty(key,'0deg'));
+    ['--image-x','--image-y'].forEach(key => stage.style.setProperty(key,'0px'));
+    stage.classList.remove('is-active');
+  });
+  setInk(0); updateProgress();
+}
+if (document.readyState !== "complete") {
+  document.addEventListener("DOMContentLoaded", initializeInteractions, { once: true });
+} else {
+  initializeInteractions();
+}
