@@ -283,11 +283,12 @@
             const projects = [
                 {
                     id: 'moodie-tales',
+                    caseStudy: 'moodie-tales.html',
                     title: 'Moodie Tales',
-                    description: 'LLM-powered bedtime stories loop built from observing 3–8-year-olds and surveying parents, turning daily mood keywords into bilingual narratives.',
+                    description: 'A story-based app that helps children aged 3–8 explore emotions through personalized bedtime tales. Follow the research, design process, and usability-led iterations.',
                     pdf: 'portfolios/moodie-tales.pdf',
                     image: 'portfolios/moodie-tales.png',
-                    timeframe: 'Mar 2025 — Jul 2025'
+                    timeframe: 'Personal project · 3 months'
                 },
                 {
                     id: 'quantum-adventure',
@@ -330,7 +331,10 @@
                 media.type = 'button';
                 media.className = 'portfolio-media';
                 media.setAttribute('aria-label', 'Open ' + project.title + ' project preview');
-                media.addEventListener('click', () => openOverlay(project.title, project.pdf));
+                media.addEventListener('click', () => {
+                    if (project.caseStudy) location.href = project.caseStudy;
+                    else openOverlay(project.title, project.pdf);
+                });
                     const img = document.createElement('img');
                 img.alt = `${project.title} preview`;
                 img.src = abs(project.image);
@@ -379,7 +383,10 @@
                 const preview = document.createElement('button');
                 preview.type = 'button'; preview.className = 'btn btn-primary'; preview.textContent = 'View project ↗';
                 preview.setAttribute('aria-label', 'View ' + project.title);
-                preview.addEventListener('click', () => openOverlay(project.title, project.pdf));
+                preview.addEventListener('click', () => {
+                    if (project.caseStudy) location.href = project.caseStudy;
+                    else openOverlay(project.title, project.pdf);
+                });
                 actions.appendChild(preview);
                 download.className = 'btn btn-text';
                 actions.appendChild(download);
