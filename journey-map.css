@@ -1,0 +1,117 @@
+/* Scoped journey-map styles; existing case-study rules remain untouched. */
+.journey-map {
+  --jm-ink: #30283e;
+  --jm-muted: #73687f;
+  --jm-accent: #7556a6;
+  --jm-border: #ded5e8;
+  color: var(--jm-ink);
+  background: #faf8fd;
+  border: 1px solid #e3dceb;
+  border-radius: 30px;
+  padding: 30px 24px 22px;
+}
+.journey-map button { font: inherit; color: inherit; cursor: pointer; }
+.journey-map button:focus-visible,
+.jm-scroll:focus-visible { outline: 3px solid #7556a6; outline-offset: 5px; }
+.jm-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 0 8px 25px; }
+.jm-toolbar p { font-size: 13px; font-weight: 600; margin: 0; }
+.jm-tiny-arrow { margin-right: 10px; color: var(--jm-accent); }
+.jm-toolbar > span { font-size: 11px; color: var(--jm-muted); }
+.jm-scroll { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-color: #cab9df transparent; scrollbar-width: thin; border-radius: 18px; padding: 6px 3px; }
+.jm-track { min-width: 760px; }
+.jm-phases { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; }
+.jm-card { appearance: none; border: 1px solid var(--jm-border); background: #fdfcfe; border-radius: 18px; padding: 21px 18px 16px; text-align: left; display: flex; flex-direction: column; min-height: 340px; position: relative; transition: transform 240ms, border-color 240ms, box-shadow 240ms, background 240ms; }
+.jm-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.jm-number { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; color: var(--jm-accent); }
+.jm-open { font-size: 17px; color: #9b89ae; transition: transform 240ms; }
+.jm-card-title { display: block; font-size: clamp(19px,1.7vw,25px); font-weight: 600; letter-spacing: -.045em; line-height: 1.16; min-height: 2.4em; }
+.jm-summary { display: block; font-size: 12px; line-height: 1.65; color: var(--jm-muted); min-height: 3.3em; margin: 14px 0; }
+.jm-emotion { display: flex; align-items: flex-start; gap: 8px; font-size: 11px; line-height: 1.55; min-height: 3.1em; }
+.jm-emotion > span { flex: 0 0 7px; width: 7px; height: 7px; background: var(--jm-dot); border-radius: 50%; margin-top: 5px; }
+.jm-pain { display: block; font-size: 11px; line-height: 1.65; padding-top: 16px; margin: 16px 0; border-top: 1px solid #eae5ee; }
+.jm-pain > span { display: block; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: #96766d; margin-bottom: 6px; }
+.jm-card-footer { display: flex; justify-content: space-between; gap: 8px; align-items: center; font-size: 10px; color: var(--jm-accent); margin-top: auto; padding-top: 5px; }
+.jm-card.is-selected { background: #eee7f8; border-color: #9d80bd; box-shadow: 0 4px 15px #62427b0c; }
+@media(hover:hover) { .jm-card:hover { transform: translateY(-4px); border-color: #a18abd; box-shadow: 0 10px 22px #62427b12; } .jm-card:hover .jm-open { transform: translate(2px,-2px); } }
+.jm-curve { position: relative; aspect-ratio: 1000 / 220; margin-top: 20px; }
+.jm-curve-label { position: absolute; top: 0; left: 18px; font-size: 10px; color: var(--jm-muted); letter-spacing: .3px; }
+.jm-curve-label > span { color: #b3a3c2; margin-left: 10px; }
+.jm-svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.jm-guide { fill: none; stroke: #e7dfef; stroke-width: 1; stroke-dasharray: 3 6; }
+.jm-line { fill: none; stroke: #a68abd; stroke-width: 2; stroke-linecap: round; }
+.jm-node { position: absolute; left: var(--jm-x); top: var(--jm-y); width: 44px; height: 44px; border: 0; background: transparent; transform: translate(-50%,-50%); padding: 0; display: grid; place-items: center; border-radius: 50%; }
+.jm-node-ring { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid transparent; border-radius: 50%; transition: background 240ms, border-color 240ms, transform 240ms; }
+.jm-node-ring > span { display: block; width: 12px; height: 12px; background: var(--jm-dot); border: 3px solid #faf8fd; border-radius: 50%; box-sizing: content-box; }
+.jm-node.is-selected .jm-node-ring,
+.jm-node.is-preview .jm-node-ring,
+.jm-node:focus-visible .jm-node-ring,
+.jm-node:hover .jm-node-ring { background: #ece3f4; border-color: #ae94c5; transform: scale(1.13); }
+.jm-node.is-selected .jm-node-ring > span { background: #7956a4; }
+.jm-node-number { position: absolute; top: 48px; left: 50%; transform: translateX(-50%); color: #88749c; font-size: 9px; letter-spacing: 1px; pointer-events: none; }
+.jm-tooltip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translate(-50%,5px); background: #34283f; color: white; padding: 10px 13px; border-radius: 10px; width: max-content; max-width: 200px; font-size: 11px; line-height: 1.5; text-align: center; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 220ms, transform 220ms, visibility 220ms; z-index: 2; }
+.jm-tooltip::after { content: ''; position: absolute; left: calc(50% - 4px); top: 100%; border: 4px solid transparent; border-top-color: #34283f; }
+.jm-node:hover .jm-tooltip,
+.jm-node:focus-visible .jm-tooltip,
+.jm-node.is-preview .jm-tooltip { opacity: 1; visibility: visible; transform: translate(-50%,0); }
+.jm-legend { display: flex; justify-content: space-between; gap: 18px; padding: 5px 8px 0; }
+.jm-legend p, .jm-mobile-hint { font-size: 10px; line-height: 1.65; color: var(--jm-muted); margin: 0; }
+.jm-mobile-hint { display: none; }
+.jm-expand { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 260ms ease, opacity 240ms; }
+.jm-expand.is-open { grid-template-rows: 1fr; opacity: 1; }
+.jm-panel-stack { min-height: 0; overflow: hidden; display: grid; }
+/* Grid stacking reserves the tallest panel: changing phases does not jump the page. */
+.jm-panel { grid-area: 1 / 1; visibility: hidden; padding: 32px 8px 8px; opacity: 0; }
+.jm-panel.is-active { visibility: visible; opacity: 1; transition: opacity 240ms ease; }
+.jm-panel-heading { display: flex; align-items: start; justify-content: space-between; gap: 25px; border-top: 1px solid var(--jm-border); padding-top: 30px; margin-bottom: 30px; }
+.jm-panel-heading h4 { font-size: 30px; font-weight: 600; letter-spacing: -.045em; line-height: 1.2; margin-top: 12px; }
+.jm-close { flex-shrink: 0; background: transparent; border: 1px solid var(--jm-border); border-radius: 20px; padding: 8px 13px; font-size: 11px!important; }
+.jm-close span { margin-left: 10px; }
+.jm-detail-columns { display: grid; grid-template-columns: .9fr 1.1fr; gap: 55px; }
+.jm-field { margin-bottom: 26px; }
+.jm-field h5 { font-size: 10px; letter-spacing: 1.25px; text-transform: uppercase; font-weight: 600; color: var(--jm-muted); margin: 0 0 10px; }
+.jm-field p { font-size: 14px; line-height: 1.75; margin: 0; }
+.jm-feeling-field { border-top: 1px solid #e5ddec; padding-top: 22px; }
+.jm-feeling-field p { color: var(--jm-accent); }
+.jm-decisions .jm-field { padding: 20px 23px; border-radius: 15px; margin: 0; }
+.jm-pain-field { background: #f3eeeb; border: 1px solid #eae0dc; }
+.jm-pain-field h5 { color: #8b685d; }
+.jm-opportunity-field { background: #eee8f5; border: 1px solid #ded1ed; }
+.jm-opportunity-field h5 { color: #745297; }
+.jm-direction-field { background: transparent; border: 1px dashed #c1afcf; }
+.jm-direction-field h5 { color: #745297; }
+.jm-link-arrow { color: #ad97be; padding: 5px 22px; font-size: 17px; line-height: 1; }
+.jm-proposal-note { font-size: 10px; color: var(--jm-muted); margin: 10px 0 0; padding-left: 22px; }
+.jm-source { padding: 20px 8px 0; margin: 0; font-size: 10px; line-height: 1.65; color: #8b7c98; }
+.jm-status { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media(max-width:1000px) {
+  .journey-map { padding: 25px 16px 20px; }
+  .jm-card { padding: 18px 14px 15px; }
+  .jm-card-title { font-size: 20px; }
+  .jm-detail-columns { gap: 30px; }
+}
+@media(max-width:700px) {
+  .journey-map { margin-inline: -6px; padding: 22px 12px 18px; border-radius: 24px; }
+  .jm-toolbar { display: block; padding: 0 6px 20px; }
+  .jm-toolbar > span { display: block; margin-top: 8px; font-size: 10px; }
+  .jm-track { width: 1000px; }
+  .jm-card { min-height: 335px; padding: 20px 18px 16px; }
+  .jm-card-title { font-size: 23px; min-height: 2.4em; }
+  .jm-summary { font-size: 12px; min-height: 3.3em; }
+  .jm-card-top { margin-bottom: 20px; }
+  .jm-legend { display: block; padding: 12px 6px 0; }
+  .jm-mobile-hint { display: block; margin-top: 9px; color: var(--jm-accent); }
+  .jm-detail-columns { grid-template-columns: 1fr; gap: 5px; }
+  .jm-panel { padding: 24px 6px 4px; }
+  .jm-panel-heading { gap: 15px; padding-top: 24px; margin-bottom: 26px; }
+  .jm-panel-heading h4 { font-size: 27px; }
+  .jm-number { font-size: 9px; letter-spacing: 1px; }
+  .jm-close { font-size: 10px!important; padding: 7px 10px; }
+  .jm-close span { margin-left: 4px; }
+  .jm-field { margin-bottom: 22px; }
+  .jm-field p { font-size: 14px; }
+  .jm-source { padding-inline: 6px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .journey-map *, .journey-map *::before, .journey-map *::after { transition: none!important; animation: none!important; }
+  .jm-card:hover, .jm-card:hover .jm-open { transform: none; }
+}
